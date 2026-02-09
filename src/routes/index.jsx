@@ -1,7 +1,9 @@
+import { Time } from "~/components/Time";
+
 export default function Home() {
   return (
-    <div>
-      <p>Hello world</p>
+    <div class="grid place-items-center content-center h-screen w-screen">
+      <Time></Time>
     </div>
   );
 }

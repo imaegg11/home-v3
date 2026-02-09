@@ -58,8 +58,11 @@
   }
 } */
 
+:root {
+  font-family: "Noto Sans", sans-serif;
+}
+
 body {
   background: var(--color-n-100);
   color: var(--color-text);
 }
-
