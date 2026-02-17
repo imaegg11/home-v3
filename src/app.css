@@ -60,6 +60,8 @@
 
 :root {
   font-family: "Noto Sans", sans-serif;
+
+  --shadow-color: var(--color-n-50);
 }
 
 body {

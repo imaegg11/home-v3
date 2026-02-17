@@ -15,7 +15,7 @@ export function Time() {
     });
 
     return (
-        <p class="text-6xl font-medium">{time()} <span class="text-accent-50">{trail()}</span></p>
+        <p class="text-6xl font-medium mb-2">{time()} <span class="text-accent-50">{trail()}</span></p>
     )
 }
 
