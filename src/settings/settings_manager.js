@@ -28,7 +28,7 @@ export class SettingManager {
         return result;
     }
 
-    dialog() {
+    render() {
         const [open, setOpen] = createSignal(false);
 
         onMount(() => {
@@ -47,7 +47,10 @@ export class SettingManager {
 
         return (
             <Dialog open={open()} onOpenChange={setOpen}>
-                <DialogContent class="h-[80vh] w-[60vw] max-w-11/12">
+                <DialogContent class="h-[80vh] w-[60vw] max-w-11/12" onOpenAutoFocus={(e) => {
+                    e.preventDefault()
+                    document.activeElement.blur()
+                }} onCloseAutoFocus={() => document.getElementById("search-bar").focus()}>
                     <DialogHeader>
                         <div class='flex items-start justify-between gap-4'>
                             <div>
@@ -60,16 +63,9 @@ export class SettingManager {
                             <button onClick={() => setOpen(!open())} type="button" class="rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
                         </div>
                     </DialogHeader>
+                    
                 </DialogContent>
             </Dialog>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                Bum
-            </div>
         )
     }
 }

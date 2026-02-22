@@ -13,7 +13,7 @@ export default function Home() {
                 <Search searchEngine={settings.get("search").get_search_engine()} searchTemplates={settings.get("search").search_templates}></Search>
             </div>
             <div>
-                <settings.dialog></settings.dialog>
+                {settings.render()}
             </div>
         </div>
     );
