@@ -43,7 +43,7 @@ const DialogContent = props => {
         )}
         {...rest}>
         {props.children}
-        <DialogPrimitive.CloseButton
+        {/* <DialogPrimitive.CloseButton
           class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[expanded]:bg-accent data-[expanded]:text-muted-foreground">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const DialogContent = props => {
             <path d="M6 6l12 12" />
           </svg>
           <span class="sr-only">Close</span>
-        </DialogPrimitive.CloseButton>
+        </DialogPrimitive.CloseButton> */}
       </DialogPrimitive.Content>
     </DialogPortal>
   );
