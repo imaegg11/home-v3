@@ -52,13 +52,6 @@
   --color-text: var(--color-accent-0);
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background-rgb: 0, 0, 0;
-    --foreground-rgb: 255, 255, 255;
-  }
-} */
-
 :root {
   font-family: "Noto Sans", sans-serif;
 
