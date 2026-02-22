@@ -33,9 +33,9 @@ export class SettingManager {
 
         return (
             <div class="h-full w-full rounded-xl border-gs-90 border p-5">
-                <p class="uppercase tracking-widest text-xs text-gs-50 ">{type}</p>
+                <p class="uppercase tracking-widest text-xs text-gs-50 mb-4">{type}</p>
                 <For each={settings}>
-                    {(item, index) => 
+                    {(item, index) =>
                         <div>
                             {item.render()}
                             {index() != settings.length - 1 ? <hr class='border-gs-90'></hr> : <></>}
@@ -64,6 +64,16 @@ export class SettingManager {
             });
         })
 
+        const close = (save) => {
+            if (save) {
+                for (let setting of this.settings) {
+                    setting.save()
+                }
+            }
+
+            setOpen(!open);
+        }
+
         return (
             <Dialog open={open()} onOpenChange={setOpen}>
                 <DialogContent class="h-[80vh] w-[60vw] max-w-11/12 flex" onOpenAutoFocus={(e) => {
@@ -79,18 +89,21 @@ export class SettingManager {
                                     Configure how your homepage looks and feels.
                                 </p>
                             </div>
-                            <button onClick={() => setOpen(!open())} type="button" class="rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
                         </div>
                         <div class='space-y-2'>
                             <For each={[...new Set(this.settings.map(item => item.heading))]}>
                                 {(item, index) => {
                                     return (
-                                        <p class={`${item == current() ? "border-text border-l-2" : "text-gs-50"} pl-2 cursor-pointer hover:text-text transition-colors`} onclick={() => {setCurrent(item)}}>
+                                        <p class={`${item == current() ? "border-text border-l-2" : "text-gs-50"} pl-2 cursor-pointer hover:text-text transition-colors`} onclick={() => { setCurrent(item) }}>
                                             {item}
                                         </p>
                                     )
                                 }}
                             </For>
+                        </div>
+                        <div class="mt-auto space-y-2">
+                            <button onClick={() => close(false)} type="button" class="w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
+                            <button onClick={() => close(true)} type="button" class="w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Save and Close</button>
                         </div>
                     </DialogHeader>
                     {this.render_content(current())}

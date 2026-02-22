@@ -2,12 +2,12 @@ import { onMount } from "solid-js"
 import { setRootVar } from "~/utils/root";
 
 
-export function Search({ searchEngine, searchTemplates }) {
+export function Search({ SearchSetting }) {
 
     onMount(() => {
         const search = document.getElementById("search-bar");
 
-        search.addEventListener("keyup", (e) => custom_search(e, searchEngine, searchTemplates))
+        search.addEventListener("keyup", (e) => custom_search(e, SearchSetting))
     })
 
     return (
@@ -17,7 +17,10 @@ export function Search({ searchEngine, searchTemplates }) {
     )
 }
 
-function custom_search(event, search_engine, search_templates) {
+function custom_search(event, SearchSetting) {
+    let search_engine = SearchSetting.get_search_engine();
+    let search_templates = SearchSetting.search_templates;
+
     let s = event.target.value; 
 
     let link = null;

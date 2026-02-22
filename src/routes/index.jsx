@@ -10,7 +10,7 @@ export default function Home() {
                 <Time></Time>
                 <CalDate></CalDate>
                 <br></br>
-                <Search searchEngine={settings.get("search").get_search_engine()} searchTemplates={settings.get("search").search_templates}></Search>
+                <Search SearchSetting={settings.get('search')}></Search>
             </div>
             <div>
                 {settings.render()}
