@@ -12,7 +12,9 @@ export class SettingTemplate {
 
     update() {}
 
-    save() {
+    save(save) {
+        if (!save) this.to_be_saved = {}
+
         for (let key of Object.keys(this.to_be_saved)) {
             this[key] = this.to_be_saved[key]
         }

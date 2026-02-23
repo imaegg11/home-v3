@@ -1,4 +1,3 @@
-import { createEffect, createSignal, createUniqueId } from "solid-js";
 import { SettingTemplate } from "./setting_template";
 
 import {
@@ -122,6 +121,10 @@ export class SearchSetting extends SettingTemplate {
             search_engine: this.search_engine,
             search_templates: this.search_templates
         })
+
+        for (let setting_saved of Object.keys(this.to_be_saved)) {
+            setSettings(setting_saved, this.to_be_saved[setting_saved])
+        }
 
         const wrappedSetSettings = (...args) => {
             setSettings(...args);

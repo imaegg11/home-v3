@@ -51,29 +51,29 @@
   --color-bg: var(--color-gs-100);
   --color-text: var(--color-accent-0);
 
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(240 10% 3.9%);
+  --color-background: var(--color-text);
+  --color-foreground: var(--color-bg);
 
-  --color-muted: hsl(240 4.8% 95.9%);
-  --color-muted-foreground: hsl(240 3.8% 46.1%);
+  --color-muted: var(--color-accent-5);
+  --color-muted-foreground: var(--color-gs-50);
 
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(240 10% 3.9%);
+  --color-popover: var(--color-text);
+  --color-popover-foreground: var(--color-bg);
 
-  --color-border: hsl(240 5.9% 90%);
-  --color-input: hsl(240 5.9% 90%);
+  --color-border: var(--color-accent-5);
+  --color-input: var(--color-accent-5);
 
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(240 10% 3.9%);
+  --color-card: var(--color-text);
+  --color-card-foreground: var(--color-bg);
 
-  --color-primary: hsl(240 5.9% 10%);
-  --color-primary-foreground: hsl(0 0% 98%);
+  --color-primary: var(--color-bg);
+  --color-primary-foreground: var(--color-text);
 
-  --color-secondary: hsl(240 4.8% 95.9%);
-  --color-secondary-foreground: hsl(240 5.9% 10%);
+  --color-secondary: var(--color-text);
+  --color-secondary-foreground:var(--color-bg);
 
-  --color-accent: hsl(240 4.8% 95.9%);
-  --color-accent-foreground: hsl(240 5.9% 10%);
+  --color-accent: var(--color-text);
+  --color-accent-foreground: var(--color-bg);
 
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(0 0% 98%);

@@ -71,22 +71,25 @@ export class SettingManager {
         })
 
         const close = (save) => {
-            if (save) {
-                for (let setting of this.settings) {
-                    setting.save()
-                }
+            for (let setting of this.settings) {
+                setting.save(save)
             }
-
+            
             setOpen(!open);
         }
 
+        const wrappedSetOpen = (val) => {
+            close(false);
+            setOpen(val);
+        }
+
         return (
-            <Dialog open={open()} onOpenChange={setOpen}>
+            <Dialog open={open()} onOpenChange={wrappedSetOpen}>
                 <DialogContent class="h-[80vh] w-[60vw] max-w-11/12 flex" onOpenAutoFocus={(e) => {
                     e.preventDefault()
                     document.activeElement.blur()
                 }}
-                    onCloseAutoFocus={() => document.getElementById("search-bar")?.focus()}
+                    onCloseAutoFocus={() => {document.getElementById("search-bar")?.focus()}}
                 >
                     <DialogHeader>
                         <div class='flex items-start justify-between gap-4 h-min mb-4'>
