@@ -38,7 +38,7 @@ export class SettingManager {
         console.log(this.settings[0])
 
         return (
-            <div class="h-full w-full rounded-xl border-gs-90 border p-5">
+            <div class="h-full w-full rounded-xl border-gs-90 border p-5 overflow-y-auto">
                 <p class="uppercase tracking-widest text-xs text-gs-50 mb-4">{type}</p>
                 <For each={settings}>
                     {(item, index) =>
@@ -108,8 +108,8 @@ export class SettingManager {
                             </For>
                         </div>
                         <div class="mt-auto space-y-2">
-                            <button onClick={() => close(false)} type="button" class="w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
-                            <button onClick={() => close(true)} type="button" class="w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Save and Close</button>
+                            <button onClick={() => close(false)} type="button" class="cursor-pointer w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
+                            <button onClick={() => close(true)} type="button" class="cursor-pointer w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Save and Close</button>
                         </div>
                     </DialogHeader>
                     {this.render_content(current())}
