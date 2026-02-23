@@ -5,15 +5,43 @@ export class SettingTemplate {
         this.name = name;
         this.heading = heading;
         this.lsm = lsm;
+
+        this.to_be_saved = {}
+
+    }
+
+    update() {}
+
+    save() {
+        for (let key of Object.keys(this.to_be_saved)) {
+            this[key] = this.to_be_saved[key]
+        }
+
+        this.to_be_saved = {}
+        lsm.setItem(this.name, this.get())
+
+        this.update()
     }
 
     get() {
-        throw new Error("Method get() must be overridden in child");
+        let temp = structuredClone(this) 
+
+        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved"]
+
+        for (let deleted_key of to_be_deleted) delete temp[deleted_key]
+
+        return temp 
     }
 
     export_setting() {
         return {
-            [name]: get()
+            [name]: this.get()
         }
+    }
+
+    load() {
+        this.to_be_saved = lsm.getItem(this.name) || {}
+
+        this.save()
     }
 }

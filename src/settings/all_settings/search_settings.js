@@ -9,11 +9,10 @@ import {
     SelectValue
 } from "~/components/ui/select"
 
-export class SearchSetting {
+export class SearchSetting extends SettingTemplate {
 
     constructor(name, heading) {
-        this.name = name;
-        this.heading = heading;
+        super(name, heading)
 
         this.search_engines = {
             "DuckDuckGo": "https://duckduckgo.com/?t=ffab&q=",
@@ -40,22 +39,10 @@ export class SearchSetting {
             },
         ]
         this.search_engine = "DuckDuckGo"
-
-        this.to_be_saved = {}
     }
 
-    get_search_engine() {
-        console.log(this.search_engine)
-        
+    get_search_engine() {      
         return this.search_engines[this.search_engine];
-    }
-
-    save() {
-        for (let key of Object.keys(this.to_be_saved)) {
-            this[key] = this.to_be_saved[key]
-        }
-
-        this.to_be_saved = {}
     }
 
     render() {

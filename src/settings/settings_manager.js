@@ -11,6 +11,10 @@ export class SettingManager {
         this.settings = [];
     }
 
+    load() {
+        for (const setting of this.settings) setting.load();
+    }
+
     add(setting) {
         if (this.get(setting.name) == null) this.settings.push(setting);
     }
@@ -30,6 +34,8 @@ export class SettingManager {
 
     render_content(type) {
         const settings = this.settings.filter(item => item.heading == type)
+        
+        console.log(this.settings[0])
 
         return (
             <div class="h-full w-full rounded-xl border-gs-90 border p-5">
