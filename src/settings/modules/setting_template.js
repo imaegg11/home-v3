@@ -23,9 +23,9 @@ export class SettingTemplate {
         this.update()
     }
 
-    get() {
+    get() {        
         let temp = structuredClone(this) 
-
+        
         const to_be_deleted = ["name", "lsm", "heading", "to_be_saved"]
 
         for (let deleted_key of to_be_deleted) delete temp[deleted_key]

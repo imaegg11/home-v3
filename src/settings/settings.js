@@ -1,5 +1,5 @@
-import { SearchSetting } from "./all_settings/search_settings";
-import { SettingTemplate } from "./all_settings/setting_template";
+import { SearchSetting } from "./modules/search_settings";
+import { SettingTemplate } from "./modules/setting_template";
 import { SettingManager } from "./settings_manager";
 
 export const settings = new SettingManager();

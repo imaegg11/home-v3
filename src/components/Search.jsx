@@ -35,7 +35,7 @@ function custom_search(event, SearchSetting) {
             setRootVar("shadow-color", template.color);
             break;
         } else if (s != "" && prefix_end != -1 && s.startsWith(prefix)) {
-            let value = s.substring(prefix_end + 1);
+            let value = s.substring(prefix_end);
 
             if (template.useEncodeURIComponent) {
                 link = template.link.replace("${value}", encodeURIComponent(value));

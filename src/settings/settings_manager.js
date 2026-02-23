@@ -34,20 +34,20 @@ export class SettingManager {
 
     render_content(type) {
         const settings = this.settings.filter(item => item.heading == type)
-        
-        console.log(this.settings[0])
 
         return (
-            <div class="h-full w-full rounded-xl border-gs-90 border p-5 overflow-y-auto">
-                <p class="uppercase tracking-widest text-xs text-gs-50 mb-4">{type}</p>
-                <For each={settings}>
-                    {(item, index) =>
-                        <div>
-                            {item.render()}
-                            {index() != settings.length - 1 ? <hr class='border-gs-90'></hr> : <></>}
-                        </div>
-                    }
-                </For>
+            <div class='h-full w-full overflow-y-auto'>
+                <div class="min-h-full rounded-xl border-gs-90 border p-5">
+                    <p class="uppercase tracking-widest text-xs text-gs-50 mb-4">{type}</p>
+                    <For each={settings}>
+                        {(item, index) =>
+                            <div>
+                                {item.render()}
+                                {index() != settings.length - 1 ? <hr class='border-gs-90'></hr> : <></>}
+                            </div>
+                        }
+                    </For>
+                </div>
             </div>
         )
     }
@@ -85,7 +85,9 @@ export class SettingManager {
                 <DialogContent class="h-[80vh] w-[60vw] max-w-11/12 flex" onOpenAutoFocus={(e) => {
                     e.preventDefault()
                     document.activeElement.blur()
-                }} onCloseAutoFocus={() => document.getElementById("search-bar").focus()}>
+                }}
+                    onCloseAutoFocus={() => document.getElementById("search-bar")?.focus()}
+                >
                     <DialogHeader>
                         <div class='flex items-start justify-between gap-4 h-min mb-4'>
                             <div>
