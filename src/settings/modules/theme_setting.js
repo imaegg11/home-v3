@@ -15,10 +15,7 @@ export class ThemeSetting extends SettingTemplate {
         super(name, heading);
 
         this.theme = 'system'
-    }
-
-    preload() {
-        this.update();
+        this.preload = true;
     }
 
     update() {

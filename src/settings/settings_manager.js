@@ -34,7 +34,7 @@ export class SettingManager {
 
     preload() {
         for (let setting of this.settings) {
-            if (setting.preload instanceof Function) setting.preload();
+            setting.preload_setting();
         }
     }
 
@@ -45,14 +45,16 @@ export class SettingManager {
             <div class='h-full w-full overflow-y-auto'>
                 <div class="min-h-full rounded-xl border-gs-90 border p-5">
                     <p class="uppercase tracking-widest text-xs text-gs-50 mb-4">{type}</p>
-                    <For each={settings}>
-                        {(item, index) =>
-                            <div>
-                                {item.render()}
-                                {index() != settings.length - 1 ? <hr class='border-gs-90'></hr> : <></>}
-                            </div>
-                        }
-                    </For>
+                    <div class="space-y-4">
+                        <For each={settings}>
+                            {(item, index) =>
+                                <>
+                                    {item.render()}
+                                    {index() != settings.length - 1 ? <hr class='border-gs-90'></hr> : <></>}
+                                </>
+                            }
+                        </For>
+                    </div>
                 </div>
             </div>
         )

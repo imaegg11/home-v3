@@ -7,10 +7,14 @@ export class SettingTemplate {
         this.lsm = lsm;
 
         this.to_be_saved = {}
-
+        this.preload = false;
     }
 
     update() {}
+
+    preload_setting() {
+        if (this.preload) this.update();
+    }
 
     save(save) {
         if (!save) this.to_be_saved = {}
