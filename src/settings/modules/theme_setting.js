@@ -43,26 +43,25 @@ export class ThemeSetting extends SettingTemplate {
         })
 
         return (
-            <div class="space-y-2">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="text-sm">Theme</p>
-                        <p class='text-xs text-gs-50'>Which theme you want.</p>
-                    </div>
-                    <Select
-                        value={theme()}
-                        onChange={setTheme}
-                        options={['Dark', 'Light', "System"]}
-                        placeholder="Select a theme..."
-                        itemComponent={(props) => <SelectItem class="text-xs" item={props.item}>{props.item.rawValue}</SelectItem>}
-                        disallowEmptySelection={true}
-                    >
-                        <SelectTrigger aria-label="Search Engine" class="text-xs h-8 w-45">
-                            <SelectValue >{(state) => state.selectedOption()}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent />
-                    </Select>
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm">Theme</p>
+                    <p class='text-xs text-gs-50'>Which theme you want.</p>
                 </div>
+                <Select
+                    value={theme()}
+                    onChange={setTheme}
+                    options={['Dark', 'Light', "System"]}
+                    placeholder="Select a theme..."
+                    class='focus:outline-none'
+                    itemComponent={(props) => <SelectItem class="text-xs" item={props.item}>{props.item.rawValue}</SelectItem>}
+                    disallowEmptySelection={true}
+                >
+                    <SelectTrigger aria-label="Search Engine" class="text-xs h-8 w-45">
+                        <SelectValue >{(state) => state.selectedOption()}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent />
+                </Select>
             </div>
         )
     }

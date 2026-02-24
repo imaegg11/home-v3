@@ -136,7 +136,7 @@ export class SearchSetting extends SettingTemplate {
         }
 
         return (
-            <div class="space-y-2">
+            <div class="space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
                         <p class="text-sm">Search Engine</p>

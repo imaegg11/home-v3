@@ -1,3 +1,4 @@
+import { About } from "./modules/about";
 import { BackgroundSetting } from "./modules/background_setting";
 import { SearchSetting } from "./modules/search_setting";
 import { ThemeSetting } from "./modules/theme_setting";
@@ -8,3 +9,4 @@ export const settings = new SettingManager();
 settings.add(new ThemeSetting('theme', 'Appearance'))
 settings.add(new BackgroundSetting('background', 'Appearance'))
 settings.add(new SearchSetting("search", "Search"));
+settings.add(new About('about', 'About'))
