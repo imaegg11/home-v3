@@ -32,6 +32,12 @@ export class SettingManager {
         return result;
     }
 
+    preload() {
+        for (let setting of this.settings) {
+            if (setting.preload instanceof Function) setting.preload();
+        }
+    }
+
     render_content(type) {
         const settings = this.settings.filter(item => item.heading == type)
 

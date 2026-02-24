@@ -44,6 +44,6 @@ export class SettingTemplate {
     load() {
         this.to_be_saved = lsm.getItem(this.name) || {}
 
-        this.save()
+        this.save(true)
     }
 }

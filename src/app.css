@@ -2,6 +2,118 @@
 @import "tailwindcss";
 
 @theme {
+
+  /* Inverted Accent Colors */
+  --color-accent-0: rgba(0, 0, 0, 1);
+  --color-accent-5: rgba(0, 9, 19, 1);
+  --color-accent-10: rgba(0, 18, 38, 1);
+  --color-accent-15: rgba(0, 28, 58, 1);
+  --color-accent-20: rgba(0, 37, 77, 1);
+  --color-accent-30: rgba(0, 56, 116, 1);
+  --color-accent-40: rgba(0, 75, 155, 1);
+  --color-accent-50: rgba(0, 94, 194, 1);
+  --color-accent-60: rgba(47, 124, 206, 1);
+  --color-accent-70: rgba(94, 154, 218, 1);
+  --color-accent-80: rgba(141, 184, 230, 1);
+  --color-accent-85: rgba(164, 199, 236, 1);
+  --color-accent-90: rgba(188, 214, 242, 1);
+  --color-accent-95: rgba(211, 229, 248, 1);
+  --color-accent-100: rgba(235, 245, 255, 1);
+
+  /* Inverted Neutral Colors */
+  --color-n-0: rgba(9, 9, 11, 1);
+  --color-n-5: rgba(4, 7, 10, 1);
+  --color-n-10: rgba(9, 14, 20, 1);
+  --color-n-15: rgba(14, 21, 30, 1);
+  --color-n-20: rgba(18, 28, 40, 1);
+  --color-n-30: rgba(28, 43, 60, 1);
+  --color-n-40: rgba(37, 57, 80, 1);
+  --color-n-50: rgba(47, 72, 101, 1);
+  --color-n-60: rgba(79, 101, 127, 1);
+  --color-n-70: rgba(112, 131, 154, 1);
+  --color-n-80: rgba(144, 161, 180, 1);
+  --color-n-85: rgba(161, 176, 194, 1);
+  --color-n-90: rgba(177, 191, 207, 1);
+  --color-n-95: rgba(193, 206, 220, 1);
+  --color-n-100: rgba(235, 245, 255, 1);
+
+  /* Inverted Grayscale Colors */
+  --color-gs-0: rgba(9, 9, 11, 1);
+  --color-gs-5: rgba(12, 12, 13, 1);
+  --color-gs-10: rgba(24, 25, 26, 1);
+  --color-gs-15: rgba(36, 38, 39, 1);
+  --color-gs-20: rgba(48, 50, 53, 1);
+  --color-gs-30: rgba(73, 76, 79, 1);
+  --color-gs-40: rgba(97, 101, 106, 1);
+  --color-gs-50: rgba(122, 127, 133, 1);
+  --color-gs-60: rgba(148, 152, 157, 1);
+  --color-gs-70: rgba(175, 178, 181, 1);
+  --color-gs-80: rgba(201, 203, 206, 1);
+  --color-gs-85: rgba(215, 216, 218, 1);
+  --color-gs-90: rgba(228, 229, 230, 1);
+  --color-gs-95: rgba(241, 242, 242, 1);
+  --color-gs-100: rgba(255, 255, 255, 1);
+
+  --color-bg: var(--color-gs-100);
+  --color-text: var(--color-accent-0);
+
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+
+  --color-muted: var(--color-gs-85);
+  --color-muted-foreground: var(--color-n-20);
+
+  --color-accent: var(--color-gs-80);
+  --color-accent-foreground: var(--color-text);
+
+  --color-popover: var(--color-bg);
+  --color-popover-foreground: var(--color-text);
+
+  --color-border: var(--color-gs-80);
+  --color-input: var(--color-gs-80);
+
+  --color-card: var(--color-bg);
+  --color-card-foreground: var(--color-text);
+
+  --color-primary: var(--color-text);
+  --color-primary-foreground: var(--color-bg);
+
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --info: 204 94% 94%;
+  --info-foreground: 199 89% 48%;
+
+  --success: 149 80% 90%;
+  --success-foreground: 160 84% 39%;
+
+  --warning: 48 96% 89%;
+  --warning-foreground: 25 95% 53%;
+
+  --error: 0 93% 94%;
+  --error-foreground: 0 84% 60%;
+
+  --ring: 240 4.9% 83.9%;
+
+  --radius: 0.5rem;
+}
+
+:root {
+  font-family: "Inter", "Noto Sans", sans-serif;
+
+  --shadow-color: var(--color-n-50);
+}
+
+body {
+  /* background: var(--color-bg); */
+  color: var(--color-text);
+}
+
+.dark,
+[data-kb-theme="dark"] {
   --color-accent-0: rgba(235, 245, 255, 1);
   --color-accent-5: rgba(211, 229, 248, 1);
   --color-accent-10: rgba(188, 214, 242, 1);
@@ -47,109 +159,6 @@
   --color-gs-90: rgba(24, 25, 26, 1);
   --color-gs-95: rgba(12, 12, 13, 1);
   --color-gs-100: rgba(9, 9, 11, 1);
-
-  --color-bg: var(--color-gs-100);
-  --color-text: var(--color-accent-0);
-
-  --color-background: var(--color-text);
-  --color-foreground: var(--color-bg);
-
-  --color-muted: var(--color-accent-5);
-  --color-muted-foreground: var(--color-gs-50);
-
-  --color-popover: var(--color-text);
-  --color-popover-foreground: var(--color-bg);
-
-  --color-border: var(--color-accent-5);
-  --color-input: var(--color-accent-5);
-
-  --color-card: var(--color-text);
-  --color-card-foreground: var(--color-bg);
-
-  --color-primary: var(--color-bg);
-  --color-primary-foreground: var(--color-text);
-
-  --color-secondary: var(--color-text);
-  --color-secondary-foreground:var(--color-bg);
-
-  --color-accent: var(--color-text);
-  --color-accent-foreground: var(--color-bg);
-
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-
-  --color-info: hsl(204 94% 94%);
-  --color-info-foreground: hsl(199 89% 48%);
-
-  --color-success: hsl(149 80% 90%);
-  --color-success-foreground: hsl(160 84% 39%);
-
-  --color-warning: hsl(48 96% 89%);
-  --color-warning-foreground: hsl(25 95% 53%);
-
-  --color-error: hsl(0 93% 94%);
-  --color-error-foreground: hsl(0 84% 60%);
-
-  --color-ring: hsl(240 5.9% 10%);
-
-  --radius: 0.5rem;
-}
-
-:root {
-  font-family: "Inter", "Noto Sans", sans-serif;
-
-  --shadow-color: var(--color-n-50);
-}
-
-body {
-  background: var(--color-n-100);
-  color: var(--color-text);
-}
-
-.dark,
-[data-kb-theme="dark"] {
-  --color-background: var(--color-bg);
-  --color-foreground: var(--color-text);
-
-  --color-muted: var(--color-gs-85);
-  --color-muted-foreground: var(--color-n-20);
-
-  --color-accent: var(--color-gs-80);
-  --color-accent-foreground: var(--color-text);
-
-  --color-popover: var(--color-bg);
-  --color-popover-foreground: var(--color-text);
-
-  --color-border: var(--color-gs-80);
-  --color-input: var(--color-gs-80);
-
-  --color-card: var(--color-bg);
-  --color-card-foreground: var(--color-text);
-
-  --color-primary: var(--color-text);
-  --color-primary-foreground: var(--color-bg);
-
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-
-  --info: 204 94% 94%;
-  --info-foreground: 199 89% 48%;
-
-  --success: 149 80% 90%;
-  --success-foreground: 160 84% 39%;
-
-  --warning: 48 96% 89%;
-  --warning-foreground: 25 95% 53%;
-
-  --error: 0 93% 94%;
-  --error-foreground: 0 84% 60%;
-
-  --ring: 240 4.9% 83.9%;
-
-  --radius: 0.5rem;
 }
 
 /* @layer base {

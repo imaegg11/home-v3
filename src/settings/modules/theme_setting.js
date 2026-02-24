@@ -17,6 +17,10 @@ export class ThemeSetting extends SettingTemplate {
         this.theme = 'system'
     }
 
+    preload() {
+        this.update();
+    }
+
     update() {
         const html = document.documentElement;
 
