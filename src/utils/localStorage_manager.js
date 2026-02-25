@@ -32,4 +32,4 @@ export class localStorageManager {
     }
 }
 
-export const lsm = new localStorageManager("home-v2")
+export const lsm = new localStorageManager("home-v3")

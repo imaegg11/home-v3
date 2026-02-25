@@ -60,6 +60,12 @@ export class SettingManager {
         )
     }
 
+    save(save) {
+        for (let setting of this.settings) {
+            setting.save(save)
+        }
+    }
+
     render() {
         const [open, setOpen] = createSignal(false);
         const [current, setCurrent] = createSignal(this.settings[0].heading);
@@ -79,10 +85,8 @@ export class SettingManager {
         })
 
         const close = (save) => {
-            for (let setting of this.settings) {
-                setting.save(save)
-            }
-            
+            this.save(save)
+
             setOpen(!open);
         }
 
@@ -97,7 +101,7 @@ export class SettingManager {
                     e.preventDefault()
                     document.activeElement.blur()
                 }}
-                    onCloseAutoFocus={() => {document.getElementById("search-bar")?.focus()}}
+                    onCloseAutoFocus={() => { document.getElementById("search-bar")?.focus() }}
                 >
                     <DialogHeader>
                         <div class='flex items-start justify-between gap-4 h-min mb-4'>
@@ -122,6 +126,7 @@ export class SettingManager {
                         </div>
                         <div class="mt-auto space-y-2">
                             <button onClick={() => close(false)} type="button" class="cursor-pointer w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Close</button>
+                            <button onClick={() => this.save(true)} type="button" class="cursor-pointer w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Save</button>
                             <button onClick={() => close(true)} type="button" class="cursor-pointer w-full rounded-lg border border-gs-80 bg-bg px-3 py-2 text-xs uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">Save and Close</button>
                         </div>
                     </DialogHeader>
