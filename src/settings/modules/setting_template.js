@@ -17,7 +17,10 @@ export class SettingTemplate {
     }
 
     save(save) {
-        if (!save) this.to_be_saved = {}
+        if (!save) {
+            this.to_be_saved = {}
+            return
+        }
 
         for (let key of Object.keys(this.to_be_saved)) {
             this[key] = this.to_be_saved[key]

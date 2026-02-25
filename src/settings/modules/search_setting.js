@@ -14,28 +14,30 @@ import {
     AccordionItem,
     AccordionTrigger
 } from "~/components/ui/accordion"
+import { Switch, SwitchControl, SwitchThumb } from "~/components/ui/switch"
+import { InfoToolTip } from "~/components/InfoToolTip";
+
 import { createStore, unwrap } from "solid-js/store";
 
 const CustomAccordion = ({ index, item, setItem, del }) => {
 
-    const update = () => {
-        let e = document.getElementById(`${index()}`)
-        let inputs = e.querySelectorAll("input")
+    const updateTextInput = (event) => {
+        setItem("search_templates", index(), event.target.placeholder.toLowerCase(), event.target.value)
+    }
 
-        for (const input of inputs) {
-            setItem("search_templates", index(), input.placeholder.toLowerCase(), input.value)
-        }
+    const updateSwitch = (value) => {
+        setItem("search_templates", index(), "useEncodeURIComponent", value);
     }
 
     return (
         <AccordionItem value={index() + ""} id={index() + ""} class="border border-gs-90 bg-bg rounded-xl">
-            <AccordionTrigger class='hover:no-underline cursor-pointer px-4'>
-                <div class="ml-4 flex items-center w-full justify-between text-sm">
-                    <div class="text-left">
-                        <p class="text-sm">Shortcut - {item.name}</p>
-                        <p class="text-xs text-gs-50">Template: {item.template}</p>
+            <AccordionTrigger class='hover:no-underline cursor-pointer px-4 overflow-hidden'>
+                <div class="ml-4 flex items-center w-full justify-between text-sm overflow-hidden">
+                    <div class="text-left min-w-0">
+                        <p class="text-sm truncate">Shortcut - {item.name}</p>
+                        <p class="text-xs text-gs-50 truncate">Template: {item.template}</p>
                     </div>
-                    <button onClick={(e) => {del(); e.stopPropagation()}} type="button" class="cursor-pointer rounded-lg border border-gs-80 bg-bg px-3 py-2 text-[0.65rem] uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">REMOVE</button>
+                    <button onClick={(e) => { del(); e.stopPropagation() }} type="button" class="ml-2 cursor-pointer rounded-lg border border-gs-80 bg-bg px-3 py-2 text-[0.65rem] uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">REMOVE</button>
                 </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -45,14 +47,14 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                         <div class="flex space-between gap-2">
                             <div class="w-full">
                                 <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2'>NAME</p>
-                                <input type="text" autoComplete="off" placeholder="Name" value={item.name} onInput={update}
+                                <input type="text" autoComplete="off" placeholder="Name" value={item.name} onInput={updateTextInput}
                                     className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                                 ></input>
                             </div>
                             <div class='w-full'>
                                 <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2'>COLOR</p>
                                 <div class='flex items-center gap-2 h-10'>
-                                    <input type="text" autoComplete="off" placeholder="Color" value={item.color} onInput={update}
+                                    <input type="text" autoComplete="off" placeholder="Color" value={item.color} onInput={updateTextInput}
                                         className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                                     ></input>
                                     <div class='h-[90%] border border-border aspect-square rounded-md' style={{ "background": item.color }}></div>
@@ -61,18 +63,45 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                         </div>
 
                         <div class='w-full'>
-                            <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2'>TEMPLATE</p>
-                            <input type="text" autoComplete="off" placeholder="Template" value={item.template} onInput={update}
+                            <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2 flex gap-2 items-center'>TEMPLATE
+                                <InfoToolTip>
+                                    <p>Template to serve as your shortcut in search bar!</p>
+                                    <br></br>
+                                    <p>{'${value}'} will serve let the program know what value you want to change. This will make a bit more sense when you read LINK.</p>
+                                    <br></br>
+                                    <p>In the case where there is no {'${value}'}, it will match for that exact string in the search bar</p>
+                                </InfoToolTip></p>
+                            <input type="text" autoComplete="off" placeholder="Template" value={item.template} onInput={updateTextInput}
                                 className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                             ></input>
                         </div>
 
                         <div class='w-full'>
-                            <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2'>LINK</p>
-                            <input type="text" autoComplete="off" placeholder="Link" value={item.link} onInput={update}
+                            <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2 flex gap-2 items-center'>LINK
+                                <InfoToolTip>
+                                    <p>The link that you want your template to take you to</p>
+                                    <br></br>
+                                    <p>{'${value}'} will get replaced with the value. For example, if you have wiki {'${value}'} paired with https://en.wikipedia.org/wiki/{'${value}'}, then searching for wiki baguette will take you to https://en.wikipedia.org/wiki/baguette</p>
+                                    <br></br>
+                                    <p>In the case where there is no {'${value}'}, it will just take you to the link. </p>
+                                </InfoToolTip></p>
+                            <input type="text" autoComplete="off" placeholder="Link" value={item.link} onInput={updateTextInput}
                                 className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                             ></input>
                         </div>
+
+                        {/* I realize now that I don't have any idea why this is a feature? */}
+                        {/* <div class="flex items-center justify-between mt-4 mx-2">
+                            <div>
+                                <p class="text-sm">Use encodeURIComponent</p>
+                                <p class='text-xs text-gs-50'>Whether to use encodeURIComponent() or not</p> 
+                            </div>
+                            <Switch checked={item.useEncodeURIComponent} onChange={updateSwitch}>
+                                <SwitchControl>
+                                    <SwitchThumb />
+                                </SwitchControl>
+                            </Switch>
+                        </div> */}
                     </div>
                 </div>
             </AccordionContent>
@@ -119,7 +148,7 @@ export class SearchSetting extends SettingTemplate {
     render() {
         const [settings, setSettings] = createStore({
             search_engine: this.search_engine,
-            search_templates: this.search_templates
+            search_templates: structuredClone(this.search_templates)
         })
 
         for (let setting_saved of Object.keys(this.to_be_saved)) {
@@ -179,7 +208,7 @@ export class SearchSetting extends SettingTemplate {
                             "link": "",
                             "useEncodeURIComponent": true,
                             "color": "#005ec2"
-                        }]))}                    
+                        }]))}
                         type="button" class="mx-2 cursor-pointer mt-3 w-full rounded-lg border border-dashed border-gs-80 bg-bg px-3 py-2 text-xs uppercase tracking-wider text-gs-30 hover:border-gs-60 hover:text-gs-15 transition-colors">+ Add Shortcut</button>
 
                 </div>
