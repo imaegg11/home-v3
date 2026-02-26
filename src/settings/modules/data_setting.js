@@ -23,7 +23,7 @@ export class DataSetting extends SettingTemplate {
                 } catch (error) {
                     toast.error("Something went wrong... check console");
 
-                    console.log(error)
+                    console.error(error)
                 }
             }
 
