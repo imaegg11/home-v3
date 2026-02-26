@@ -14,7 +14,7 @@ export class BackgroundSetting extends SettingTemplate {
     }
 
     render() {
-        const [bg, setBG] = createSignal(this.bg);
+        const [bg, setBG] = createSignal(this.to_be_saved['bg'] || this.bg);
 
         createEffect(() => {
             this.to_be_saved['bg'] = bg()

@@ -96,7 +96,7 @@ export class SettingManager {
         }
 
         return (
-            <Dialog open={open()} onOpenChange={wrappedSetOpen}>
+            <Dialog modal={false} open={open()} onOpenChange={wrappedSetOpen}>
                 <DialogContent class="h-[80vh] w-[60vw] max-w-11/12 flex" onOpenAutoFocus={(e) => {
                     e.preventDefault()
                     document.activeElement.blur()

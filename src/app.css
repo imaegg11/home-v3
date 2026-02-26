@@ -208,3 +208,104 @@ body {
 ::-webkit-scrollbar-corner {
   display: none;
 }
+
+.codeflask {
+  position: relative !important;
+  height: 30rem !important;
+
+  border-radius: calc(var(--radius) - 2px) !important;
+  border: solid 1px var(--color-gs-90);
+}
+
+.codeflask textarea {
+  caret-color: var(--color-text); 
+}
+
+/* Remove the underlying colors (I thought it was antialiasing) Not actually sure why I need the extra stuff for dark mode but it's working so that's not my problem :sparkles: */
+
+/* Light Mode */
+
+.codeflask ::selection {
+  background: var(--color-accent-90);
+  color: var(--color-accent-90);
+}
+
+/* Dark Mode */
+
+.dark .codeflask textarea {
+  color: var(--color-bg) !important;
+}
+
+.dark .codeflask {
+  background: var(--color-bg);
+  color: #cdd6f4;
+}
+
+.dark .codeflask ::selection {
+  background: #313244;
+  color: #313244;
+}
+
+/* Dark mode syntax colors */
+
+/* Punctuation */
+.dark .codeflask .token.punctuation {
+  color: #a6adc8;
+}
+
+/* Keywords */
+.dark .codeflask .token.keyword {
+  color: #cba6f7;
+  font-weight: 500;
+}
+
+/* Operators */
+.dark .codeflask .token.operator {
+  color: #89dceb;
+}
+
+/* Strings */
+.dark .codeflask .token.string {
+  color: #a6e3a1;
+}
+
+/* Comments */
+.dark .codeflask .token.comment {
+  color: #6c7086;
+  font-style: italic;
+}
+
+/* Functions */
+.dark .codeflask .token.function {
+  color: #89b4fa;
+}
+
+/* Booleans */
+.dark .codeflask .token.boolean {
+  color: #f38ba8;
+}
+
+/* Numbers */
+.dark .codeflask .token.number {
+  color: #f9e2af;
+}
+
+/* Selectors */
+.dark .codeflask .token.selector {
+  color: #94e2d5;
+}
+
+/* Properties */
+.dark .codeflask .token.property {
+  color: #fab387;
+}
+
+/* Tags */
+.dark .codeflask .token.tag {
+  color: #f38ba8;
+}
+
+/* Attribute values */
+.dark .codeflask .token.attr-value {
+  color: #a6e3a1;
+}
