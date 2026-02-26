@@ -35,7 +35,7 @@ export class SettingTemplate {
     get() {        
         let temp = structuredClone(this) 
         
-        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved"]
+        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved", "preload"]
 
         for (let deleted_key of to_be_deleted) delete temp[deleted_key]
 
@@ -44,12 +44,12 @@ export class SettingTemplate {
 
     export_setting() {
         return {
-            [name]: this.get()
+            [this.name]: this.get()
         }
     }
 
-    load() {
-        this.to_be_saved = lsm.getItem(this.name) || {}
+    load(data) {
+        this.to_be_saved = data
 
         this.save(true)
     }

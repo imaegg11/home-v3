@@ -21,7 +21,7 @@ export class localStorageManager {
     setItem(setting, value) {
         if (localStorage.getItem(this.website_name) == null) {
             localStorage.setItem(this.website_name, "{}")
-        } 
+        }
 
         let settings = JSON.parse(localStorage.getItem(this.website_name));
 
@@ -29,6 +29,10 @@ export class localStorageManager {
 
         localStorage.setItem(this.website_name, JSON.stringify(settings))
 
+    }
+
+    reset() {
+        localStorage.setItem(this.website_name, "{}");
     }
 }
 

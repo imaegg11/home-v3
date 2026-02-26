@@ -9,6 +9,7 @@ import {
     SelectValue
 } from "~/components/ui/select"
 import { capitalize } from "~/utils/capitalize";
+import { setTheme } from "~/app";
 
 export class ThemeSetting extends SettingTemplate {
     constructor(name, heading) {
@@ -33,6 +34,8 @@ export class ThemeSetting extends SettingTemplate {
                 html.classList.remove('dark')
                 break;
         }
+
+        setTheme(this.theme)
     }
 
     render() {

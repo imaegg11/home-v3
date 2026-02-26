@@ -5,14 +5,19 @@ import {
 } from "~/components/ui/dialog"
 
 import { createSignal, onMount, onCleanup, For } from "solid-js";
+import { lsm } from "~/utils/localStorage_manager";
 
 export class SettingManager {
     constructor() {
         this.settings = [];
     }
 
-    load() {
-        for (const setting of this.settings) setting.load();
+    load(settings_json=null) {
+        if (settings_json == null) {
+            for (const setting of this.settings) setting.load(lsm.getItem(setting.name) || {});
+        } else {
+            for (const setting of this.settings) setting.load(settings_json[setting.name] || {});
+        }
     }
 
     add(setting) {
@@ -36,6 +41,16 @@ export class SettingManager {
         for (let setting of this.settings) {
             setting.preload_setting();
         }
+    }
+
+    export() {
+        let export_obj = {}
+
+        for (let setting of this.settings) {
+            export_obj = {...export_obj, ...setting.export_setting()}
+        }
+
+        return export_obj
     }
 
     render_content(type) {
@@ -96,7 +111,7 @@ export class SettingManager {
         }
 
         return (
-            <Dialog modal={false} open={open()} onOpenChange={wrappedSetOpen}>
+            <Dialog open={open()} onOpenChange={wrappedSetOpen}>
                 <DialogContent class="h-[80vh] w-[60vw] max-w-11/12 flex" onOpenAutoFocus={(e) => {
                     e.preventDefault()
                     document.activeElement.blur()
