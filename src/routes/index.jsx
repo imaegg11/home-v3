@@ -8,12 +8,15 @@ export default function Home() {
     onMount(() => settings.load())
 
     return (
-        <div class="grid place-items-center content-center h-screen w-screen">
+        <div class="grid place-items-center content-center h-screen w-screen space-y-8">
             <div class="select-none text-center w-3/5">
                 <Time></Time>
                 <CalDate></CalDate>
                 <br></br>
                 <Search SearchSetting={settings.get('search')}></Search>
+            </div>
+            <div id='widget-parent'>
+                {settings.get('widgets').wrapped_render_widgets()}
             </div>
             <div>
                 {settings.render()}

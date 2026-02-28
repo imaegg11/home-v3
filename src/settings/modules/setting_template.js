@@ -1,6 +1,9 @@
+import { createSignal } from "solid-js";
 import { lsm } from "~/utils/localStorage_manager";
 
 export class SettingTemplate {
+    #forceUpdate = createSignal(0)
+
     constructor(name, heading) {
         this.name = name;
         this.heading = heading;
@@ -8,6 +11,18 @@ export class SettingTemplate {
 
         this.to_be_saved = {}
         this.preload = false;
+    }
+
+    /* 
+        A bit sketch but what's happening is that I create a signal for 0 and each time it's update, 
+        I can force an update somewhere for something and not have it tied to a signal
+    */
+    getForceUpdate() {
+        return this.#forceUpdate[0];
+    }
+
+    forceUpdate() {
+        return this.#forceUpdate[1](prev => prev + 1);
     }
 
     update() {}
@@ -35,7 +50,7 @@ export class SettingTemplate {
     get() {        
         let temp = structuredClone(this) 
         
-        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved", "preload"]
+        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved", "preload", 'sketch']
 
         for (let deleted_key of to_be_deleted) delete temp[deleted_key]
 
