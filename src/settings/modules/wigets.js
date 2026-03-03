@@ -12,6 +12,8 @@ export class Widgets extends SettingTemplate {
     }
 
     update() {
+        this.widgets = []
+
         let t = availableWidgets['progress']
         this.widgets.push(new t(1, 1, 1, 1))
 
