@@ -1,34 +1,38 @@
 
 import { SettingTemplate } from "./setting_template";
 import CodeFlask from "codeflask";
-import { createSignal, onMount } from 'solid-js';
+import { onMount } from 'solid-js';
+import { createStore } from "solid-js/store";
 
 export class CSSSetting extends SettingTemplate {
     constructor(name, heading) {
-        super(name, heading)
+        super(name, heading, {
+            content: ""
+        })
 
-        this.content = "";
         this.preload = true;
     }
 
     update() {
-        document.getElementById("style").innerHTML = this.content;
+        document.getElementById("style").innerHTML = this.settings.content;
     }
 
     render() {
-
-        const [content, setContent] = createSignal(this.to_be_saved['content'] || this.content)
+        const [store, setStore] = createStore({
+            ...this.settings,
+            ...this.to_be_saved
+        })
 
         onMount(() => {
             const editorElem = document.getElementById('editor');
             const flask = new CodeFlask(editorElem, { language: 'css' });
 
-            flask.updateCode(content())
+            flask.updateCode(store.content)
 
             flask.onUpdate((code) => {
-                this.to_be_saved['content'] = code;
+                this.to_be_saved.contents = code;
 
-                setContent(code);
+                setStore("content", code);
             })
         })
 

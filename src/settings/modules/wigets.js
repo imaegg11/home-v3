@@ -2,22 +2,22 @@
 
 import { availableWidgets } from "~/widgets/all_wdgets";
 import { SettingTemplate } from "./setting_template";
-import { createMemo, createSignal, on } from "solid-js";
+import { createMemo, on } from "solid-js";
 
 export class Widgets extends SettingTemplate {
     constructor(name, heading) {
-        super(name, heading);
-
-        this.widgets = []
+        super(name, heading, {
+            widgets: []
+        });
     }
 
     update() {
-        this.widgets = []
+        this.settings.widgets = []
 
         let t = availableWidgets['progress']
-        this.widgets.push(new t(1, 1, 1, 1))
+        this.settings.widgets.push(new t(1, 1, 1, 1))
 
-        this.widgets.push(new t(4, 2, 1, 1))
+        this.settings.widgets.push(new t(4, 2, 1, 1))
 
         this.forceUpdate()
     }
@@ -31,7 +31,7 @@ export class Widgets extends SettingTemplate {
     render_widgets() {
         return (
             <div id='widgets' class='grid auto-cols-[140px] auto-rows-[140px] gap-4'>
-                <For each={this.widgets}>
+                <For each={this.settings.widgets}>
                     {(item, index) => item.render()}
                 </For>
             </div>

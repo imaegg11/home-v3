@@ -10,19 +10,21 @@ import {
 } from "~/components/ui/select"
 import { capitalize } from "~/utils/capitalize";
 import { setTheme } from "~/app";
+import { createStore } from "solid-js/store";
 
 export class ThemeSetting extends SettingTemplate {
     constructor(name, heading) {
-        super(name, heading);
+        super(name, heading, {
+            theme: 'system'
+        });
 
-        this.theme = 'system'
         this.preload = true;
     }
 
     update() {
         const html = document.documentElement;
 
-        switch (this.theme) {
+        switch (this.settings.theme) {
             case 'system':
                 if (window.matchMedia("(prefers-color-scheme: dark)").matches) html.classList.add("dark")
                 else html.classList.remove("dark")
@@ -35,14 +37,17 @@ export class ThemeSetting extends SettingTemplate {
                 break;
         }
 
-        setTheme(this.theme)
+        setTheme(this.settings.theme)
     }
 
     render() {
-        const [ theme, setTheme ] = createSignal(capitalize(this.to_be_saved['theme'] || this.theme));
-
+        const [ store, setStore ] = createStore({
+            ...this.settings,
+            ...this.to_be_saved
+        })
+        
         createEffect(() => {
-            this.to_be_saved['theme'] = theme().toLowerCase()
+            this.to_be_saved['theme'] = store.theme.toLowerCase()
         })
 
         return (
@@ -52,8 +57,8 @@ export class ThemeSetting extends SettingTemplate {
                     <p class='text-xs text-gs-50'>Which theme you want.</p>
                 </div>
                 <Select
-                    value={theme()}
-                    onChange={setTheme}
+                    value={capitalize(store.theme)}
+                    onChange={(val) => setStore("theme", val)}
                     options={['Dark', 'Light', "System"]}
                     placeholder="Select a theme..."
                     class='focus:outline-none'

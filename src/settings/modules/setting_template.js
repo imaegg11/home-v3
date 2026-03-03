@@ -4,13 +4,17 @@ import { lsm } from "~/utils/localStorage_manager";
 export class SettingTemplate {
     #forceUpdate = createSignal(0)
 
-    constructor(name, heading) {
+    constructor(name, heading, settings = {}) {
         this.name = name;
         this.heading = heading;
         this.lsm = lsm;
 
         this.to_be_saved = {}
         this.preload = false;
+
+        this.settings = {
+            ...settings
+        }
     }
 
     /* 
@@ -25,20 +29,21 @@ export class SettingTemplate {
         return this.#forceUpdate[1](prev => prev + 1);
     }
 
-    update() {}
+    update() { }
 
     preload_setting() {
         if (this.preload) this.update();
     }
 
-    save(save) {
-        if (!save) {
+    save(shouldSave) {
+        if (!shouldSave) {
             this.to_be_saved = {}
             return
         }
 
-        for (let key of Object.keys(this.to_be_saved)) {
-            this[key] = this.to_be_saved[key]
+        this.settings = {
+            ...this.settings,
+            ...this.to_be_saved
         }
 
         this.to_be_saved = {}
@@ -47,14 +52,8 @@ export class SettingTemplate {
         this.update()
     }
 
-    get() {        
-        let temp = structuredClone(this) 
-        
-        const to_be_deleted = ["name", "lsm", "heading", "to_be_saved", "preload", 'sketch']
-
-        for (let deleted_key of to_be_deleted) delete temp[deleted_key]
-
-        return temp 
+    get() {
+        return this.settings
     }
 
     export_setting() {

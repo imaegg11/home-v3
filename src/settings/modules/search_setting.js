@@ -112,7 +112,26 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
 export class SearchSetting extends SettingTemplate {
 
     constructor(name, heading) {
-        super(name, heading)
+        super(name, heading, {
+            search_engine: "DuckDuckGo",
+            search_templates: [
+                {
+                    "name": "Wikipedia",
+                    "template": "wiki ${value}",
+                    "link": "https://en.wikipedia.org/wiki/${value}",
+                    "useEncodeURIComponent": true,
+                    "color": "#fca54e"
+                },
+                {
+                    "name": "Github",
+                    "template": "gh",
+                    "link": "https://github.com",
+                    "useEncodeURIComponent": true,
+                    "color": "#fc4e4e"
+                },
+            ]
+        })
+
 
         this.search_engines = {
             "DuckDuckGo": "https://duckduckgo.com/?t=ffab&q=",
@@ -121,34 +140,16 @@ export class SearchSetting extends SettingTemplate {
             "Brave": "https://search.brave.com/search?q=",
             "Ecosia": "https://www.ecosia.org/search?method=index&q="
         }
-
-        this.search_templates = [
-            {
-                "name": "Wikipedia",
-                "template": "wiki ${value}",
-                "link": "https://en.wikipedia.org/wiki/${value}",
-                "useEncodeURIComponent": true,
-                "color": "#fca54e"
-            },
-            {
-                "name": "Github",
-                "template": "gh",
-                "link": "https://github.com",
-                "useEncodeURIComponent": true,
-                "color": "#fc4e4e"
-            },
-        ]
-        this.search_engine = "DuckDuckGo"
     }
 
     get_search_engine() {
-        return this.search_engines[this.search_engine];
+        return this.search_engines[this.settings.search_engine];
     }
 
     render() {
         const [settings, setSettings] = createStore({
-            search_engine: this.search_engine,
-            search_templates: structuredClone(this.search_templates)
+            ...structuredClone(this.settings),
+            ...structuredClone(this.to_be_saved)
         })
 
         for (let setting_saved of Object.keys(this.to_be_saved)) {

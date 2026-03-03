@@ -19,7 +19,7 @@ export function Search({ SearchSetting }) {
 
 function custom_search(event, SearchSetting) {
     let search_engine = SearchSetting.get_search_engine();
-    let search_templates = SearchSetting.search_templates;
+    let search_templates = SearchSetting.settings.search_templates;
 
     let s = event.target.value; 
 
