@@ -3,10 +3,10 @@ import { WidgetTemplate } from "./widgets_template"
 import { createSignal, onMount } from "solid-js"
 
 export class ProgressWidget extends WidgetTemplate {
-    constructor(x, y, w = 1, h = 1) {
-        super("Progress", {
-            x, y, w, h, 
-            anime: true
+    constructor(settings) {
+        super("Time Progress", {
+            animate: true,
+            ...settings,
         })
     }
 

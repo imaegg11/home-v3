@@ -152,10 +152,6 @@ export class SearchSetting extends SettingTemplate {
             ...structuredClone(this.to_be_saved)
         })
 
-        for (let setting_saved of Object.keys(this.to_be_saved)) {
-            setSettings(setting_saved, this.to_be_saved[setting_saved])
-        }
-
         const wrappedSetSettings = (...args) => {
             setSettings(...args);
 
