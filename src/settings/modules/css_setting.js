@@ -30,7 +30,7 @@ export class CSSSetting extends SettingTemplate {
             flask.updateCode(store.content)
 
             flask.onUpdate((code) => {
-                this.to_be_saved.contents = code;
+                this.to_be_saved.content = code;
 
                 setStore("content", code);
             })
