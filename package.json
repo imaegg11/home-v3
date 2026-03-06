@@ -13,6 +13,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codeflask": "^1.4.1",
+    "gridstack": "^12.4.2",
     "solid-js": "^1.9.5",
     "solid-sonner": "^0.2.8",
     "tailwind-merge": "^3.5.0",

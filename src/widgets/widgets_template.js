@@ -8,7 +8,7 @@ export class WidgetTemplate {
         this.name = name
 
         this.settings = {
-            id: createUniqueId,
+            id: createUniqueId(),
             height: 1,
             width: 1,
             ...settings
@@ -16,6 +16,16 @@ export class WidgetTemplate {
 
         this.to_be_saved = {}
         this.details = {}
+    }
+
+    fetch_position() {
+        return {
+            id: this.settings.id,
+            x: (this.to_be_saved.x || this.settings.x) - 1,
+            y: (this.to_be_saved.y || this.settings.y) - 1,
+            h: (this.to_be_saved.height || this.settings.height),
+            w: (this.to_be_saved.width || this.settings.width)
+        }
     }
 
     export_widget() {
@@ -37,6 +47,13 @@ export class WidgetTemplate {
         }
 
         this.to_be_saved = {}
+    }
+
+    update_to_be_saved(update) {
+        this.to_be_saved = {
+            ...this.to_be_saved,
+            ...update
+        }
     }
 
     render_settings() {

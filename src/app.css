@@ -309,3 +309,35 @@ body {
 .dark .codeflask .token.attr-value {
   color: #a6e3a1;
 }
+
+/* Gridstack */
+
+.grid-stack {
+  min-height: calc(var(--gs-cell-height) * 3);
+}
+
+.grid-stack-item-content {
+  display: grid;
+  place-items: center;
+  text-align: center;
+
+  border: 1px solid var(--color-gs-90);
+  padding: 4px;
+  
+  border-radius: var(--radius);
+
+  background-color: var(--color-accent-80);
+}
+
+.grid-stack-placeholder > .placeholder-content {
+  border-radius: var(--radius);
+  background-color: var(--color-gs-90);
+}
+
+.grid-stack-item:hover {
+  cursor: grab;
+}
+
+.ui-draggable-dragging {
+  cursor: grabbing !important; /* deadass no clue why it doesn't work */
+}
