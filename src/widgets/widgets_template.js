@@ -123,7 +123,7 @@ export class WidgetTemplate {
         }
 
         return (
-            <div class='p-4 pt-0'>
+            <div class='p-4 pt-0 space-y-4'>
                 <hr class='border-gs-90 mb-4'></hr>
                 <For each={Object.keys(store)}>
                     {(item, index) => {
