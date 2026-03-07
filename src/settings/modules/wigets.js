@@ -181,6 +181,8 @@ export class Widgets extends SettingTemplate {
         });
 
         createEffect(() => {
+            if (!grid) return
+
             try {
                 grid.removeAll()
                 grid.batchUpdate()
