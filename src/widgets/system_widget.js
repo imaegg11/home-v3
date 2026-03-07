@@ -61,7 +61,7 @@ export class SystemWidget extends WidgetTemplate {
                         <div class='select-none space-y-1.5'>
                             <div class='space-y-1'>
                                 <p class='text-xs text-accent-15'>CPU - {data()?.data.cpu.total_percent}% ({data()?.data.cpu.temperature.readings[0].current}°C)</p>
-                                <Progress class='[&>div]:h-1.5' value={73}></Progress>
+                                <Progress class='[&>div]:h-1.5' value={data()?.data.cpu.total_percent}></Progress>
                             </div>
 
                             <div class='space-y-1'>

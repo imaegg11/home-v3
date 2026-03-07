@@ -114,7 +114,7 @@ export class WidgetTemplate {
                 <div class='space-y-2'>
                     <div class='w-full'>
                         <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2 flex gap-2 items-center'>{name.toUpperCase()}</p>
-                        <input type="text" autoComplete="off" placeholder={name.toUpperCase()} onInput={(val) => wrappedSetStore(name, val.data)} value={store[name]}
+                        <input type="text" autoComplete="off" placeholder={name.toUpperCase()} onInput={(val) => wrappedSetStore(name, val.target.value)} value={store[name]}
                             className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                         ></input>
                     </div>
