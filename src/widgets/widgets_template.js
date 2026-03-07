@@ -1,14 +1,15 @@
-import { createUniqueId } from "solid-js"
 import { createStore, unwrap } from "solid-js/store"
 import { Switch, SwitchControl, SwitchThumb } from "~/components/ui/switch"
 import { capitalize } from "~/utils/capitalize"
+import { nanoid } from 'nanoid';
+import { ErrorBoundary } from "solid-js";
 
 export class WidgetTemplate {
     constructor(name, settings) {
         this.name = name
 
         this.settings = {
-            id: createUniqueId(),
+            id: nanoid(10),
             height: 1,
             width: 1,
             ...settings
@@ -56,8 +57,22 @@ export class WidgetTemplate {
         }
     }
 
-    render_settings() {
+    render_content() { }
 
+    render() {
+        return (
+            <div class='[&>div]:h-full [&>div]:rounded-md [&>div]:overflow-auto' style={{
+                "grid-column": `${this.settings.x} / span ${this.settings.width}`,
+                "grid-row": `${this.settings.y} / span ${this.settings.height}`,
+            }}>
+                <ErrorBoundary fallback={<div class='bg-accent-80 grid place-items-center rounded-md text-center'>Something went wrong....</div>}>
+                    {this.render_content()}
+                </ErrorBoundary>
+            </div>
+        )
+    }
+
+    render_settings() {
         const [store, setStore] = createStore({
             ...this.settings,
             ...this.to_be_saved
@@ -99,12 +114,12 @@ export class WidgetTemplate {
                 <div class='space-y-2'>
                     <div class='w-full'>
                         <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2 flex gap-2 items-center'>{name.toUpperCase()}</p>
-                        <input type="text" autoComplete="off" placeholder={name.toUpperCase()} onInput={(val) => wrappedSetStore(name, val)}
+                        <input type="text" autoComplete="off" placeholder={name.toUpperCase()} onInput={(val) => wrappedSetStore(name, val.data)} value={store[name]}
                             className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                         ></input>
                     </div>
                 </div>
-            )
+            );
         }
 
         return (
@@ -117,7 +132,7 @@ export class WidgetTemplate {
                                 case "boolean":
                                     return boolInput(item)
 
-                                case "string": 
+                                case "string":
                                     return textInput(item)
                             }
                         }

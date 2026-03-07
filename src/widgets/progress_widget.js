@@ -10,7 +10,7 @@ export class ProgressWidget extends WidgetTemplate {
         })
     }
 
-    render() {
+    render_content() {
 
         const getYearProgress = () => {
             const now = new Date();
@@ -55,11 +55,7 @@ export class ProgressWidget extends WidgetTemplate {
 
         return (
             <div
-                class="bg-accent-50 rounded-md grid place-items-center"
-                style={{
-                    "grid-column": `${this.settings.x} / span ${this.settings.width}`,
-                    "grid-row": `${this.settings.y} / span ${this.settings.height}`,
-                }}>
+                class="bg-accent-80 rounded-md grid place-items-center">
                 <div className="text text-center w-full px-4">
                     <p>The Year Is</p>
                     <p className="text-3xl font-semibold">{progress()}%</p>

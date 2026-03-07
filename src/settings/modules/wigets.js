@@ -59,6 +59,8 @@ export class Widgets extends SettingTemplate {
     }
 
     save(shouldSave) {
+        super.save(shouldSave)
+        
         for (let widget of this.settings.widgets) widget.save(shouldSave)
 
         super.save(shouldSave)
@@ -180,7 +182,6 @@ export class Widgets extends SettingTemplate {
 
         createEffect(() => {
             try {
-                // document.getElementsByClassName('grid-stack')[0].innerHTML = ""
                 grid.removeAll()
                 grid.batchUpdate()
 
@@ -201,51 +202,47 @@ export class Widgets extends SettingTemplate {
         return (
             <div class='space-y-4'>
                 <div>
-                    <div>
-                        <p class="text-sm">Widgets</p>
-                        <p class='text-xs text-gs-50'>Little blobs to put onto your homepage.</p>
+                    <p class="text-sm">Widgets</p>
+                    <p class='text-xs text-gs-50'>Little blobs to put onto your homepage.</p>
+                </div>
+                <div>
+                    <div class="grid-stack mt-2 border border-gs-90 rounded" ref={gridRef}>
                     </div>
-                    <div>
-                        <div class="grid-stack mt-2 border border-gs-90 rounded" ref={gridRef}>
-                        </div>
-                    </div>
-                    <div class="flex justify-center">
-                        <Accordion multiple={false} collapsible class="my-4 mx-2 w-full space-y-4">
-                            <For each={store.widgets}>
-                                {(item, index) => <CustomAccordion index={index} item={item} del={() => wrappedSetStore("widgets", items => items.filter((_, i) => i !== index()))}></CustomAccordion>}
-                            </For>
-                            <Show when={store.widgets.length == 0}>
-                                <p class="w-full text-center mt-6 mb-3 text-sm text-gs-50">No widgets found! Try adding one?</p>
-                            </Show>
-                        </Accordion>
-                    </div>
-                    <div class='grid grid-rows-1 grid-cols-[80fr_20fr]'>
-                        <Combobox
-                            value={value()}
-                            onChange={setValue}
-                            options={ALL_OPTIONS}
-                            placeholder="Search a widget..."
-                            itemComponent={(props) => (
-                                <ComboboxItem item={props.item} class='cursor-pointer'>
-                                    <ComboboxItemLabel>{props.item.rawValue} Widget</ComboboxItemLabel>
-                                    <ComboboxItemIndicator />
-                                </ComboboxItem>
-                            )}
-                        >
-                            <ComboboxControl aria-label="Widgets">
-                                <ComboboxInput />
-                                <ComboboxTrigger />
-                            </ComboboxControl>
-                            <ComboboxContent />
-                        </Combobox>
+                </div>
+                <div class='grid grid-rows-1 grid-cols-[80fr_20fr]'>
+                    <Combobox
+                        value={value()}
+                        onChange={setValue}
+                        options={ALL_OPTIONS}
+                        placeholder="Search a widget..."
+                        itemComponent={(props) => (
+                            <ComboboxItem item={props.item} class='cursor-pointer'>
+                                <ComboboxItemLabel>{props.item.rawValue} Widget</ComboboxItemLabel>
+                                <ComboboxItemIndicator />
+                            </ComboboxItem>
+                        )}
+                    >
+                        <ComboboxControl aria-label="Widgets">
+                            <ComboboxInput />
+                            <ComboboxTrigger />
+                        </ComboboxControl>
+                        <ComboboxContent />
+                    </Combobox>
 
-                        <button
-                            onClick={() => value() != null && add_widget(value())}
+                    <button
+                        onClick={() => value() != null && add_widget(value())}
 
-                            type="button" class="mx-2 cursor-pointer w-full rounded-lg border border-dashed border-gs-80 bg-bg px-3 py-2 text-xs uppercase tracking-wider text-gs-30 hover:border-gs-60 hover:text-gs-15 transition-colors">Add Widget</button>
-                    </div>
-
-
+                        type="button" class="mx-2 cursor-pointer w-full rounded-lg border border-dashed border-gs-80 bg-bg px-3 py-2 text-xs uppercase tracking-wider text-gs-30 hover:border-gs-60 hover:text-gs-15 transition-colors">Add Widget</button>
+                </div>
+                <div class="flex justify-center">
+                    <Accordion multiple={false} collapsible class=" mx-2 w-full space-y-4">
+                        <For each={store.widgets}>
+                            {(item, index) => <CustomAccordion index={index} item={item} del={() => wrappedSetStore("widgets", items => items.filter((_, i) => i !== index()))}></CustomAccordion>}
+                        </For>
+                        <Show when={store.widgets.length == 0}>
+                            <p class="w-full text-center mt-6 mb-3 text-sm text-gs-50">No widgets found! Try adding one?</p>
+                        </Show>
+                    </Accordion>
                 </div>
             </div>
         )
