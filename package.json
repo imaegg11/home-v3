@@ -13,6 +13,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codeflask": "^1.4.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-solid": "^8.6.0",
     "gridstack": "^12.4.2",
     "nanoid": "^5.1.6",
     "solid-js": "^1.9.5",

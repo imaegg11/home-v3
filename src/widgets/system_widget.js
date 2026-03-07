@@ -17,7 +17,7 @@ export class SystemWidget extends WidgetTemplate {
 
         const fetchResource = async () => {
             const res = await fetch(this.settings.url);
-            if (!res.ok) {
+            if (this.settings.url == "" || !res.ok) {
                 toast.error("System Info: Failed to fetch from url")
                 throw new Error('Failed to fetch from url');
             }
@@ -25,7 +25,6 @@ export class SystemWidget extends WidgetTemplate {
             const text = await res.text();
 
             try {
-                console.log(text)
                 return JSON.parse(text);
             } catch (err) {
                 toast.error("System Info: Invalid JSON response");
@@ -49,7 +48,7 @@ export class SystemWidget extends WidgetTemplate {
         // onCleanup(() => clearInterval(interval))
 
         return (
-            <Suspense fallback={<div class="bg-accent-80/10 animate-pulse"></div>}>
+            <Suspense fallback={<div class="bg-accent-80/30 animate-pulse"></div>}>
                 <div
                     class="bg-accent-80 grid place-items-center">
                     <div className={`${this.settings.width >= 2 ? "grid" : ""} grid-cols-[45fr_55fr] [&>div]:p-2 place-items-center`}>
