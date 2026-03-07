@@ -17,6 +17,57 @@ export class SystemWidget extends WidgetTemplate {
 
         const fetchResource = async () => {
             const res = await fetch(this.settings.url);
+
+            if (this.settings.url == "") {
+                return {
+                    "status_code": 200,
+                    "message": "Successfully retrieved system info",
+                    "data": {
+                        "uptime": "3:02:24",
+                        "cpu": {
+                            "total_percent": 6.5,
+                            "temperature": {
+                                "available": true,
+                                "source": "HardwareMonitor-HTTP",
+                                "unit": "C",
+                                "average": 57.3,
+                                "max": 57.3,
+                                "readings": [
+                                    {
+                                        "sensor": "HardwareMonitorHTTP",
+                                        "label": "Core (Tctl/Tdie)",
+                                        "current": 57.3,
+                                        "high": null,
+                                        "critical": null
+                                    }
+                                ],
+                            }
+                        },
+                        "ram": {
+                            "percent": 79.5,
+                            "used": "18.4GB",
+                            "total": "23.1GB"
+                        },
+                        "swap": {
+                            "percent": 1.3,
+                            "used": "166.2MB",
+                            "total": "12.5GB"
+                        },
+                        "disk": {
+                            "total": {
+                                "used": "349.4GB",
+                                "total": "475.4GB",
+                                "percent": 73.5
+                            }
+                        },
+                        "battery": {
+                            "percent": 80,
+                            "charging": true
+                        }
+                    }
+                }
+            }
+
             if (this.settings.url == "" || !res.ok) {
                 toast.error("System Info: Failed to fetch from url")
                 throw new Error('Failed to fetch from url');
@@ -53,7 +104,7 @@ export class SystemWidget extends WidgetTemplate {
                     class="bg-accent-80 grid place-items-center">
                     <div className={`${this.settings.width >= 2 ? "grid" : ""} grid-cols-[45fr_55fr] [&>div]:p-2 place-items-center`}>
                         <div class=''>
-                            <ProgressCircle value={data()?.data.battery.percent} size={"lg"}>
+                            <ProgressCircle value={data()?.data.battery.percent} size={"lg"} class={`${this.settings.height == this.settings.width && this.settings.height == 1 ? "[&>div]:relative [&>div]:-top-16.75" : ""}`}>
                                 <span class="text-2xl font-bold text-accent-30">{data()?.data.battery.percent}%</span>
                             </ProgressCircle>
                         </div>
