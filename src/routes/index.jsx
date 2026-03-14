@@ -146,7 +146,7 @@ export default function Home() {
 
     })
 
-    const [open, setOpen] = createSignal(localStorage['should-open-this-again'] != false);
+    const [open, setOpen] = createSignal(localStorage['should-open-this-again'] != 'false');
 
     const close = () => {
         localStorage['should-open-this-again'] = false;
