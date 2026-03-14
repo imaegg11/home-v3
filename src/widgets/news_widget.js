@@ -343,6 +343,11 @@ export class NewsWidget extends WidgetTemplate {
                                 if (e.source != null) source.push(e.source)
                                 if (e.author != null) source.push(e.author.split(",")[0])
 
+                                const clamp = {
+                                    1: "line-clamp-2",
+                                    2: "line-clamp-3",
+                                    3: "line-clamp-4",
+                                }
                                 return (
                                     <CarouselItem key={e.title} class="h-full">
                                         <div class="h-full bg-cover bg-no-repeat bg-center mx-auto bg-transparent rounded-sm cursor-pointer" style={{ "background-image": `url(${e.urlToImage})` }}>
@@ -350,7 +355,7 @@ export class NewsWidget extends WidgetTemplate {
                                                 <div class="bg-linear-to-b from-transparent to-(--color-bg) h-full rounded-sm">
                                                     <div class="h-full relative">
                                                         <div class="absolute bottom-2 px-4">
-                                                            <p class={`text-xs line-clamp-${this.settings.height + 1}`}>{e.title.split(" - ")[0]}</p>
+                                                            <p class={`text-xs ${clamp[this.settings.height]}`}>{e.title.split(" - ")[0]}</p>
                                                             <p class="text-[10px] muted mt-1 line-clamp-1">{source.join(" • ")}</p>
                                                         </div>
                                                     </div>

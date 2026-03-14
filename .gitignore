@@ -30,3 +30,6 @@ Thumbs.db
 # stats
 bundle-stats.html
 stats.html
+
+# testing
+data.json
