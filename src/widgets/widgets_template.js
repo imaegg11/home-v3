@@ -4,10 +4,8 @@ import { capitalize } from "~/utils/capitalize"
 import { nanoid } from 'nanoid';
 import { ErrorBoundary } from "solid-js";
 
-export class WidgetTemplate {
-    constructor(name, settings) {
-        this.name = name
-
+export default class WidgetTemplate {
+    constructor(settings) {
         this.settings = {
             id: nanoid(10),
             height: 1,
@@ -31,7 +29,7 @@ export class WidgetTemplate {
 
     export_widget() {
         return {
-            name: this.name,
+            name: this.constructor.name,
             settings: this.settings
         }
     }

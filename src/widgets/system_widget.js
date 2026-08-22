@@ -1,13 +1,15 @@
 import { ProgressCircle } from "~/components/ui/progress-circle"
-import { WidgetTemplate } from "./widgets_template"
+import WidgetTemplate from "./widgets_template"
 import { Progress } from "~/components/ui/progress"
 
 import { createResource, onCleanup, onMount, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 
-export class SystemWidget extends WidgetTemplate {
+export default class SystemWidget extends WidgetTemplate {
+    static name = "System Info";
+    
     constructor(settings) {
-        super("System Info", {
+        super({
             url: "",
             ...settings,
         })

@@ -1,4 +1,4 @@
-import { WidgetTemplate } from "./widgets_template"
+import WidgetTemplate from "./widgets_template"
 
 import {
     Carousel,
@@ -12,9 +12,11 @@ import Autoplay from "embla-carousel-autoplay"
 import { createResource, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 
-export class NewsWidget extends WidgetTemplate {
+export default class NewsWidget extends WidgetTemplate {
+    static name = "News";
+    
     constructor(settings) {
-        super("News", {
+        super({
             url: "",
             ...settings,
         })

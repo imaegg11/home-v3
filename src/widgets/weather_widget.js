@@ -1,10 +1,12 @@
-import { WidgetTemplate } from "./widgets_template"
+import WidgetTemplate from "./widgets_template"
 import { createResource, Suspense, Show } from "solid-js";
 import { toast } from "solid-sonner";
 
-export class WeatherWidget extends WidgetTemplate {
+export default class WeatherWidget extends WidgetTemplate {
+    static name = "Weather";
+    
     constructor(settings) {
-        super("Weather", {
+        super({
             url: "",
             link: "",
             showHourly: true,
