@@ -1,6 +1,7 @@
 // All things widgets (Might have to split into widgets setting and widgets manager some day... not too sure)
 
 import { availableWidgets } from "~/widgets/all_wdgets";
+import WidgetTemplate from "~/widgets/widgets_template";
 import { SettingTemplate } from "./setting_template";
 import { createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
 
@@ -34,7 +35,7 @@ const CustomAccordion = ({ index, item, del }) => {
             <AccordionTrigger class='hover:no-underline cursor-pointer px-4 overflow-hidden'>
                 <div class="ml-4 flex items-center w-full justify-between text-sm overflow-hidden">
                     <div class="text-left min-w-0">
-                        <p class="text-sm truncate">{index() + 1}. {item.name} Widget</p>
+                        <p class="text-sm truncate">{index() + 1}. {item.constructor.name} Widget</p>
                         <p class="text-xs text-gs-50 truncate">ID: {item.settings.id}</p>
                     </div>
                     <button onClick={(e) => { del(); e.stopPropagation() }} type="button" class="ml-2 cursor-pointer rounded-lg border border-gs-80 bg-bg px-3 py-2 text-[0.65rem] uppercase  text-gs-30 hover:border-gs-60 hover:text-gs-15">REMOVE</button>
@@ -67,6 +68,8 @@ export class Widgets extends SettingTemplate {
     }
 
     load(data) {
+        console.log(WidgetTemplate.widgets)
+
         this.settings = {
             widgets: data?.widgets?.map((value) => new availableWidgets[value.name](value.settings)) || []
         }
@@ -181,6 +184,8 @@ export class Widgets extends SettingTemplate {
         });
 
         createEffect(() => {
+            if (!grid) return
+
             try {
                 grid.removeAll()
                 grid.batchUpdate()
@@ -188,7 +193,7 @@ export class Widgets extends SettingTemplate {
                 for (const widget of store.widgets) {
                     const el = grid.addWidget(widget.fetch_position())
 
-                    el.firstChild.innerHTML = `<p>${widget.name}</p><p class='text-xs text-gs-50'>${widget.settings.id}</p>`
+                    el.firstChild.innerHTML = `<p>${widget.constructor.name}</p><p class='text-xs text-gs-50'>${widget.settings.id}</p>`
                 }
 
                 grid.batchUpdate(false)

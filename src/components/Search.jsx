@@ -1,29 +1,66 @@
-import { onMount } from "solid-js"
+import { onMount } from "solid-js";
 import { setRootVar } from "~/utils/root";
 
 
 export function Search({ SearchSetting }) {
+    let blockEnterUntil = 0;
 
     onMount(() => {
         const search = document.getElementById("search-bar");
 
-        search.addEventListener("keyup", (e) => custom_search(e, SearchSetting))
+        if (search) {
+            // Prevent browsers from restoring stale value and immediately submitting it.
+            search.value = "";
+        }
+
+        setRootVar("shadow-color", "var(--color-n-50)");
+        blockEnterUntil = performance.now() + 450;
     })
+
+    const updateSearchColor = (event) => {
+        const value = event.currentTarget.value;
+        const { color } = resolveSearch(value, SearchSetting);
+
+        setRootVar("shadow-color", color);
+    }
+
+    const submitSearch = (event) => {
+        if (event.key !== "Enter") return;
+        if (performance.now() < blockEnterUntil) return;
+
+        const value = event.currentTarget.value;
+        const { link } = resolveSearch(value, SearchSetting);
+
+        if (event.ctrlKey || event.metaKey) {
+            window.open(link);
+        } else {
+            window.location.href = link;
+        }
+
+        event.currentTarget.value = "";
+        setRootVar("shadow-color", "var(--color-n-50)");
+    }
 
     return (
         <input id="search-bar" type="text" autoComplete="off" autoFocus placeholder="Search"
             className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-85 select-none rounded-3xl px-6 transition focus-within:outline-none focus-within:shadow-[0_1px_6px_0_var(--shadow-color)] hover:shadow-[0_1px_6px_0_var(--shadow-color)]"
+            onInput={updateSearchColor}
+            onKeyDown={submitSearch}
+            onFocus={() => {
+                blockEnterUntil = Math.max(blockEnterUntil, performance.now() + 120);
+            }}
         ></input>
     )
 }
 
-function custom_search(event, SearchSetting) {
+function resolveSearch(value, SearchSetting) {
     let search_engine = SearchSetting.get_search_engine();
     let search_templates = SearchSetting.settings.search_templates;
 
-    let s = event.target.value; 
+    let s = value;
 
     let link = null;
+    let color = "var(--color-n-50)";
 
     for (let template of search_templates) {
         let prefix_end = template.template.indexOf("${value}");
@@ -32,7 +69,7 @@ function custom_search(event, SearchSetting) {
         if (template.template == s) {
             link = template.link;
 
-            setRootVar("shadow-color", template.color);
+            color = template.color;
             break;
         } else if (s != "" && prefix_end != -1 && s.startsWith(prefix)) {
             let value = s.substring(prefix_end);
@@ -43,24 +80,15 @@ function custom_search(event, SearchSetting) {
                 link = template.link.replace("${value}", value);
             }
 
-            setRootVar("shadow-color", template.color);
+            color = template.color;
             break;
         }
     }
 
     if (link == null) {
         link = `${search_engine}${encodeURIComponent(s)}`;
-        setRootVar("shadow-color", "var(--color-n-50)");
+        color = "var(--color-n-50)";
     }
 
-    if (event.keyCode == 13) {
-        if (event.ctrlKey) {
-            window.open(link);
-        } else {
-            window.location.href = link;
-        }
-
-        event.target.value = "";
-        setRootVar("shadow-color", "var(--color-n-50)");
-    }
+    return { link, color };
 }

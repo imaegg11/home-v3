@@ -91,7 +91,8 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                         </div>
 
                         {/* I realize now that I don't have any idea why this is a feature? */}
-                        {/* <div class="flex items-center justify-between mt-4 mx-2">
+                        {/* Nvm I remember why, cause it's because of github... */}
+                        <div class="flex items-center justify-between mt-4 mx-2">
                             <div>
                                 <p class="text-sm">Use encodeURIComponent</p>
                                 <p class='text-xs text-gs-50'>Whether to use encodeURIComponent() or not</p> 
@@ -101,7 +102,7 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                                     <SwitchThumb />
                                 </SwitchControl>
                             </Switch>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </AccordionContent>

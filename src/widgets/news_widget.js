@@ -1,4 +1,4 @@
-import { WidgetTemplate } from "./widgets_template"
+import WidgetTemplate from "./widgets_template"
 
 import {
     Carousel,
@@ -12,9 +12,11 @@ import Autoplay from "embla-carousel-autoplay"
 import { createResource, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 
-export class NewsWidget extends WidgetTemplate {
+export default class NewsWidget extends WidgetTemplate {
+    static name = "News";
+    
     constructor(settings) {
-        super("News", {
+        super({
             url: "",
             ...settings,
         })
@@ -81,6 +83,12 @@ export class NewsWidget extends WidgetTemplate {
                                 let source = []
                                 if (e.source != null) source.push(e.source)
                                 if (e.author != null) source.push(e.author.split(",")[0])
+                  
+                                const clamp = {
+                                    1: "line-clamp-2",
+                                    2: "line-clamp-3",
+                                    3: "line-clamp-4",
+                                }
 
                                 return (
                                     <CarouselItem key={e.title} class="h-full">
@@ -89,7 +97,7 @@ export class NewsWidget extends WidgetTemplate {
                                                 <div class="bg-linear-to-b from-transparent to-(--color-bg) h-full rounded-sm">
                                                     <div class="h-full relative">
                                                         <div class="absolute bottom-2 px-4">
-                                                            <p class={`text-xs line-clamp-${this.settings.height + 1}`}>{e.title.split(" - ")[0]}</p>
+                                                            <p class={`text-xs ${clamp[this.settings.height]}`}>{e.title.split(" - ")[0]}</p>
                                                             <p class="text-[10px] muted mt-1 line-clamp-1">{source.join(" • ")}</p>
                                                         </div>
                                                     </div>

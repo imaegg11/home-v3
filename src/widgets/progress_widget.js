@@ -1,10 +1,12 @@
 import { Progress } from "~/components/ui/progress"
-import { WidgetTemplate } from "./widgets_template"
+import WidgetTemplate from "./widgets_template"
 import { createSignal, onMount } from "solid-js"
 
-export class ProgressWidget extends WidgetTemplate {
+export default class ProgressWidget extends WidgetTemplate {
+    static name = "Time Progress";
+    
     constructor(settings) {
-        super("Time Progress", {
+        super({
             animate: true,
             ...settings,
         })
