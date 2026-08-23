@@ -51,6 +51,13 @@ const staleWhileRevalidate = async (request) => {
   return cached || networkPromise;
 };
 
+const matchImage = async (request) => {
+  const cache = await caches.open(RUNTIME_CACHE);
+  const cached = await cache.match(request);
+
+  return cached || fetch(request)
+}
+
 const networkFirstDocument = async (request) => {
   const cache = await caches.open(APP_SHELL_CACHE);
   try {
@@ -93,6 +100,11 @@ self.addEventListener("fetch", (event) => {
 
   if (!isSameOrigin && ["style", "font"].includes(request.destination)) {
     event.respondWith(staleWhileRevalidate(request));
+    return;
+  }
+
+  if (request.destination == "image") {
+    event.respondWith(matchImage(request));
     return;
   }
 });
