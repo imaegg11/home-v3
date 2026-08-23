@@ -1,6 +1,8 @@
-const CACHE_VERSION = "home-v3";
-const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
-const APP_SHELL_CACHE = `app-shell-${CACHE_VERSION}`;
+import {
+  RUNTIME_CACHE, 
+  APP_SHELL_CACHE
+} from '~/config/site.js'
+
 const APP_SHELL = ["/", "/index.html"];
 
 const isCacheableResponse = (response) =>

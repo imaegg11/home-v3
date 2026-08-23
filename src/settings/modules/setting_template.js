@@ -31,6 +31,8 @@ export class SettingTemplate {
 
     update() { }
 
+    async cache() { }
+
     preload_setting() {
         if (this.preload) this.update();
     }
@@ -41,15 +43,27 @@ export class SettingTemplate {
             return
         }
 
-        this.settings = {
-            ...this.settings,
-            ...this.to_be_saved
+        const self_save = () => {
+            this.settings = {
+                ...this.settings,
+                ...this.to_be_saved
+            }
+
+            this.to_be_saved = {}
+            lsm.setItem(this.name, this.get())
+
+            this.update()
         }
 
-        this.to_be_saved = {}
-        lsm.setItem(this.name, this.get())
+        if (Object.keys(this.to_be_saved).length != 0) {
+            this.cache()
+                .then(r => self_save())
+                .catch(e => self_save())
+        } else {
+            self_save()
+        }
 
-        this.update()
+
     }
 
     get() {

@@ -1,6 +1,7 @@
 import { createEffect } from "solid-js";
 import { SettingTemplate } from "./setting_template";
 import { createStore } from "solid-js/store";
+import { cache_info } from "~/utils/cache";
 
 export class BackgroundSetting extends SettingTemplate {
     constructor(name, heading) {
@@ -9,6 +10,10 @@ export class BackgroundSetting extends SettingTemplate {
         })
 
         this.preload = true
+    }
+
+    async cache() {      
+        await cache_info([this.settings.bg], [this.to_be_saved.bg])
     }
 
     update() {
@@ -20,7 +25,7 @@ export class BackgroundSetting extends SettingTemplate {
             ...this.settings,
             ...this.to_be_saved
         })
-        
+
         createEffect(() => {
             this.to_be_saved.bg = store.bg
         })
