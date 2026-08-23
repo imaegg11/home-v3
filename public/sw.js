@@ -89,7 +89,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (!isSameOrigin && ["style", "font", "image"].includes(request.destination)) {
+  if (!isSameOrigin && ["style", "font"].includes(request.destination)) {
     event.respondWith(staleWhileRevalidate(request));
     return;
   }

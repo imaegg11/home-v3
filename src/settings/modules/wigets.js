@@ -68,8 +68,6 @@ export class Widgets extends SettingTemplate {
     }
 
     load(data) {
-        console.log(WidgetTemplate.widgets)
-
         this.settings = {
             widgets: data?.widgets?.map((value) => new availableWidgets[value.name](value.settings)) || []
         }
