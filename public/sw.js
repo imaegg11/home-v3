@@ -1,7 +1,7 @@
 import {
   RUNTIME_CACHE, 
   APP_SHELL_CACHE
-} from '~/config/site.js'
+} from './config.js'
 
 const APP_SHELL = ["/", "/index.html"];
 

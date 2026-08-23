@@ -1,4 +1,4 @@
-import { RUNTIME_CACHE } from "~/config/site";
+import { RUNTIME_CACHE } from "../../public/config";
 
 export async function cache_info(prev, cur) {
     const cache = await caches.open(RUNTIME_CACHE);
