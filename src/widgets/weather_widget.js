@@ -1,36 +1,30 @@
 import WidgetTemplate from "./widgets_template"
-import { createResource, Suspense, Show } from "solid-js";
+import { createResource, For, Suspense, Show } from "solid-js";
 import { toast } from "solid-sonner";
+import { truncate3 } from "../utils/truncate3";
 
 export default class WeatherWidget extends WidgetTemplate {
     static name = "Weather";
-    
+
     constructor(settings) {
         super({
             url: "",
             link: "",
-            showHourly: true,
+            location: "",
             ...settings,
         })
-
-        this.details = {
-            showHourly: {
-                text: "Show Hourly Forecast",
-                description: "Display hourly weather forecast"
-            }
-        }
     }
 
     render_content() {
         // Simple SVG weather icons
         const WeatherIcon = (props) => {
             const icons = {
-                sun: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>,
-                cloud: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>,
-                rain: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="13" x2="16" y2="21"/><line x1="8" y1="13" x2="8" y2="21"/><line x1="12" y1="15" x2="12" y2="23"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/></svg>,
-                snow: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-snow-icon lucide-cloud-snow"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>,
-                fog: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16"/><path d="M4 18h12"/><path d="M4 10h14"/></svg>,
-                partlyCloudy: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>,
+                sun: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>,
+                cloud: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" /></svg>,
+                rain: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="13" x2="16" y2="21" /><line x1="8" y1="13" x2="8" y2="21" /><line x1="12" y1="15" x2="12" y2="23" /><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" /></svg>,
+                snow: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-snow-icon lucide-cloud-snow"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" /><path d="M8 15h.01" /><path d="M8 19h.01" /><path d="M12 17h.01" /><path d="M12 21h.01" /><path d="M16 15h.01" /><path d="M16 19h.01" /></svg>,
+                fog: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16" /><path d="M4 18h12" /><path d="M4 10h14" /></svg>,
+                partlyCloudy: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="M20 12h2" /><path d="m19.07 4.93-1.41 1.41" /><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128" /><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z" /></svg>,
             };
             return <div class={props.class}>{icons[props.type] || icons.cloud}</div>;
         };
@@ -61,79 +55,90 @@ export default class WeatherWidget extends WidgetTemplate {
             }
         }
 
-        const [data, { refetch }] = createResource(fetchResource)
+        const [data] = createResource(fetchResource)
 
-        // Get next 6 hours of forecast
+        // Get next 8 hours of forecast
         const getHourlyForecast = () => {
             if (!data()) return [];
             const currentHour = new Date().getHours();
             const hourly = data()?.forecast?.forecastday[0]?.hour || [];
-            
-            // Find current hour and get next 6 hours
+
+            // Find current hour and get next 8 hours
             const currentIndex = hourly.findIndex(h => {
                 const hourTime = new Date(h.time_epoch * 1000).getHours();
                 return hourTime >= currentHour;
             });
-            
-            if (currentIndex === -1) return hourly.slice(0, 6);
-            return hourly.slice(currentIndex, currentIndex + 6);
+
+            if (currentIndex === -1) return hourly.slice(0, 8);
+            return hourly.slice(currentIndex, currentIndex + 8);
+        }
+
+        const formatWind = () => {
+            const windKph = data()?.current?.wind_kph;
+
+            if (windKph === undefined || windKph === null) return "--";
+            return truncate3(windKph);
         }
 
         return (
             <Suspense fallback={<div class="bg-accent-80/30 animate-pulse rounded-md"></div>}>
-                <div class="bg-accent-80 rounded-md h-full flex flex-col overflow-hidden">
-                    {/* Current Weather */}
-                    <a 
-                        href={this.settings.link || "#"}
-                        class="flex-1 flex flex-col items-center justify-center px-4 pt-5 pb-4 min-h-0 cursor-pointer hover:bg-accent-80/80 transition-colors"
-                    >
-                        <div class="text-center">
-                            <p class="text-sm text-accent-20 mb-1">{data()?.location?.name}</p>
-                            <div class="flex items-center justify-center gap-3 mb-1">
-                                <WeatherIcon type={getWeatherIcon(data()?.current?.condition?.code)} class="w-12 h-12 text-accent-20" />
-                                <p class="text-5xl font-bold">{Math.round(data()?.current?.temp_c)}°</p>
-                            </div>
-                            <p class="text-sm text-accent-30 mb-1">{data()?.current?.condition?.text}</p>
-                            
-                            {/* Additional Details */}
-                            <div class="space-y-0.5 text-xs text-accent-20">
-                                <p>
-                                    Feels <span class="font-medium">{Math.round(data()?.current?.feelslike_c)}°C</span>
-                                    <span class="mx-1.5 text-accent-30">•</span>
-                                    Humidity <span class="font-medium">{data()?.current?.humidity}%</span>
-                                </p>
-                                <p>
-                                    Wind <span class="font-medium">{Math.round(data()?.current?.wind_kph)} km/h</span>
-                                    <span class="mx-1.5 text-accent-30">•</span>
-                                    UV <span class="font-medium">{Math.round(data()?.current?.uv || 0)}</span>
-                                </p>
-                            </div>
-                        </div>
+                <div class='bg-accent-80 rounded-md h-full p-4 flex-col flex'>
+                    <a href={this.settings.link || "#"}
+                        class='[&:hover>span:nth-child(2)]:pl-2 text-[10px] text-gs-30 flex items-center'>
+                        <p class='uppercase mr-2 line-normal'>{data()?.location?.name || this.settings.location || "Weather"}</p>
+                        <span class='transition-all'>→</span>
                     </a>
+                    <div class='text-gs-10 flex items-end gap-2 mt-2'>
+                        <WeatherIcon class="w-6 h-6" type={getWeatherIcon(data()?.current?.condition?.code)}></WeatherIcon>
+                        <p class='text-xs'>{data()?.current?.condition?.text || "Loading weather"}</p>
+                    </div>
 
-                    {/* Hourly Forecast */}
+                    <div class="flex items-start mt-2 mx-6">
+                        <p class='text-7xl'>{Math.round(data()?.current?.temp_c ?? 0)}</p>
+                        <p class='text-2xl'>°C</p>
+                    </div>
+
+                    <div class='mt-2 flex *:px-2 divide-x divide-gs-50'>
+                        <div class='text-[10px]'>
+                            <p class='text-gs-30 uppercase'>Feels Like</p>
+                            <p class='bold text-xs'>{Math.round(data()?.current?.feelslike_c ?? 0)}°C</p>
+                        </div>
+
+                        <div class='text-[10px]'>
+                            <p class='text-gs-30 uppercase'>Humidity</p>
+                            <p class='bold text-xs'>{data()?.current?.humidity ?? 0}%</p>
+                        </div>
+
+                        <div class='text-[10px]'>
+                            <p class='text-gs-30 uppercase'>Wind</p>
+                            <p class='bold text-xs'>{data()?.current?.wind_dir || "--"} {formatWind()}</p>
+                        </div>
+                    </div>
+
                     <Show when={this.settings.showHourly}>
-                        <div class="border-t border-gs-80 px-2 pt-2 pb-3">
-                            <div class="flex gap-3 overflow-x-auto pb-5">
-                                <For each={getHourlyForecast()}>
-                                    {(hour) => {
-                                        const time = new Date(hour.time_epoch * 1000);
-                                        const hourStr = time.getHours().toString().padStart(2, '0') + ':00';
-                                        
-                                        return (
-                                            <div class="flex flex-col items-center min-w-16 text-center">
-                                                <p class="text-[10px] text-accent-30 mb-1">{hourStr}</p>
-                                                <WeatherIcon type={getWeatherIcon(hour.condition.code)} class="w-7 h-7 text-accent-30 mb-1" />
-                                                <p class="text-sm font-medium">{Math.round(hour.temp_c)}°</p>
-                                                <p class="text-[10px] text-accent-30 mb-1">feels {Math.round(hour.feelslike_c)}°</p>
-                                                <Show when={hour.chance_of_rain > 0}>
-                                                    <p class="text-[9px] text-accent-20">{hour.chance_of_rain}%</p>
-                                                </Show>
+                        <div class='mt-2 flex-1 flex gap-2 scroll-overlay select-none *:shrink-0'>
+                            <For each={getHourlyForecast()}>
+                                {(hour) => {
+                                    const time = new Date(hour.time_epoch * 1000);
+                                    const hourLabel = time.toLocaleString("en-US", {
+                                        hour: "numeric",
+                                        hour12: true,
+                                    }).toLowerCase();
+
+                                    return (
+                                        <div class='border border-gs-50 rounded-sm w-24 h-full p-2 pt-1 flex flex-col'>
+                                            <div class='flex justify-between mt-1'>
+                                                <p class='uppercase text-gs-30 text-[10px]'>{hourLabel}</p>
+                                                <WeatherIcon class='w-5 h-5 mt-1' type={getWeatherIcon(hour.condition.code)}></WeatherIcon>
                                             </div>
-                                        )
-                                    }}
-                                </For>
-                            </div>
+                                            <div class='mt-auto'>
+                                                <p class='text-sm'>{Math.round(hour.temp_c)}°C</p>
+                                                <p class='text-gs-30 text-[8px]'>Feels Like {Math.round(hour.feelslike_c)}°C</p>
+                                            </div>
+                                        </div>
+                                    )
+                                }}
+                            </For>
                         </div>
                     </Show>
                 </div>

@@ -218,7 +218,7 @@ body {
 }
 
 .codeflask textarea {
-  caret-color: var(--color-text); 
+  caret-color: var(--color-text);
 }
 
 /* Remove the underlying colors (I thought it was antialiasing) Not actually sure why I need the extra stuff for dark mode but it's working so that's not my problem :sparkles: */
@@ -323,13 +323,13 @@ body {
 
   border: 1px solid var(--color-gs-90);
   padding: 4px;
-  
+
   border-radius: var(--radius);
 
   background-color: var(--color-accent-80);
 }
 
-.grid-stack-placeholder > .placeholder-content {
+.grid-stack-placeholder>.placeholder-content {
   border-radius: var(--radius);
   background-color: var(--color-gs-90);
 }
@@ -339,5 +339,21 @@ body {
 }
 
 .ui-draggable-dragging {
-  cursor: grabbing !important; /* deadass no clue why it doesn't work */
+  cursor: grabbing !important;
+  /* deadass no clue why it doesn't work */
+}
+
+/* Scroll */
+
+.scroll-overlay {
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gs-50) transparent;
+}
+
+/* Tailwind one doesn't seem to work */
+
+.line-normal {
+  line-height: normal;
 }

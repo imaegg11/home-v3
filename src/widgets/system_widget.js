@@ -1,3 +1,4 @@
+import { truncate3 } from "~/utils/truncate3";
 import WidgetTemplate from "./widgets_template"
 
 import { createResource, onCleanup, Suspense } from "solid-js";
@@ -65,16 +66,6 @@ export default class SystemWidget extends WidgetTemplate {
             if (percent >= 70) return "full";
             if (percent >= 30) return "medium";
             return "low";
-        }
-
-        function truncate3(n) {
-            const [whole, decimal = ''] = String(n).split('.');
-            const digits = (whole + decimal).slice(0, 3);
-
-            if (whole.length >= 3) return Number(digits);
-
-            const result = `${digits.slice(0, whole.length)}.${digits.slice(whole.length)}`;
-            return Number(result);
         }
 
         return (
