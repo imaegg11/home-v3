@@ -1,6 +1,6 @@
 // All things widgets (Might have to split into widgets setting and widgets manager some day... not too sure)
 
-import { availableWidgets } from "~/widgets/all_wdgets";
+import { availableWidgets } from "~/widgets/widgets_map";
 import WidgetTemplate from "~/widgets/widgets_template";
 import { SettingTemplate } from "./setting_template";
 import { createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";

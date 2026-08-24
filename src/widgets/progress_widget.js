@@ -58,7 +58,7 @@ export default class ProgressWidget extends WidgetTemplate {
         return (
             <div
                 class="bg-accent-80 rounded-md grid place-items-center">
-                <div className="text text-center w-full px-4">
+                <div className="text text-center w-full px-4 overflow-x-hidden">
                     <p>The Year Is</p>
                     <p className="text-3xl font-semibold">{progress()}%</p>
                     <Progress value={progress()} class='mx-auto my-3 [&>div]:h-2.5 [&>div]:bg-transparent'></Progress>

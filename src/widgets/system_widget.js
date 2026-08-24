@@ -1,9 +1,6 @@
-import { ProgressCircle } from "~/components/ui/progress-circle"
 import WidgetTemplate from "./widgets_template"
-import { Progress } from "~/components/ui/progress"
 
-import { createResource, onCleanup, onMount, Suspense } from "solid-js";
-import { toast } from "solid-sonner";
+import { createResource, onCleanup, Suspense } from "solid-js";
 
 export default class SystemWidget extends WidgetTemplate {
     static name = "System Info";
@@ -17,11 +14,18 @@ export default class SystemWidget extends WidgetTemplate {
 
     render_content() {
 
+        // We probably need to do this a better way but honestly I can't be bothered right now
         const fetchResource = async () => {
-            const res = await fetch(this.settings.url);
+            let res;
+
+            try {
+                res = await fetch(this.settings.url);
+            } catch (e) {
+                throw new Error('System Info: Failed to fetch from url');
+            }
+
             if (this.settings.url == "" || !res.ok) {
-                toast.error("System Info: Failed to fetch from url")
-                throw new Error('Failed to fetch from url');
+                throw new Error('System Info: Failed to fetch from url');
             }
 
             const text = await res.text();
@@ -29,25 +33,18 @@ export default class SystemWidget extends WidgetTemplate {
             try {
                 return JSON.parse(text);
             } catch (err) {
-                toast.error("System Info: Invalid JSON response");
-                throw new Error("Invalid JSON response");
+                throw new Error("System Info: Invalid JSON response");
             }
 
         }
 
-        const [data, { refetch, mutate }] = createResource(fetchResource)
+        const [data, { refetch }] = createResource(fetchResource)
 
-        // ?????????
+        const timer = setInterval(() => {
+            refetch();
+        }, 5000);
 
-        // let interval;
-
-        // onMount(() => {
-        //     interval = setInterval(() => {
-        //         refetch()
-        //     }, 3000);
-        // })
-
-        // onCleanup(() => clearInterval(interval))
+        onCleanup(() => clearInterval(timer));
 
         const battery = {
             "full": <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a6e3a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-full-icon lucide-battery-full"><path d="M10 10v4" /><path d="M14 10v4" /><path d="M22 14v-4" /><path d="M6 10v4" /><rect x="2" y="6" width="16" height="12" rx="2" /></svg>,
@@ -88,9 +85,9 @@ export default class SystemWidget extends WidgetTemplate {
                             <p class='tracking-wide'>SYSTEM</p>
                             <p class='flex gap-1 items-center'
                                 style={{
-                                    'color': color[getSection(data()?.data.battery.percent, data()?.data.battery.charging)]
+                                    'color': color[getSection(data.latest?.data.battery.percent, data.latest?.data.battery.charging)]
                                 }}
-                            >{data()?.data.battery.percent}% {battery[getSection(data()?.data.battery.percent, data()?.data.battery.charging)]}</p>
+                            >{data.latest?.data.battery.percent}% {battery[getSection(data.latest?.data.battery.percent, data.latest?.data.battery.charging)]}</p>
                         </div>
                         <div class='grid grid-cols-2 grid-rows-2 gap-x-2 mt-1.5'>
                             <div class='border-t border-text p-1'>
@@ -99,7 +96,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data()?.data.cpu.total_percent)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.data.cpu.total_percent)}<span class='text-[12px]'>%</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -108,7 +105,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data()?.data.cpu.temperature)}<span class='text-[12px]'>°C</span></p>
+                                >{truncate3(data.latest?.data.cpu.temperature)}<span class='text-[12px]'>°C</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -117,7 +114,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data()?.data.ram)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.data.ram)}<span class='text-[12px]'>%</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -126,11 +123,11 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data()?.data.disk)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.data.disk)}<span class='text-[12px]'>%</span></p>
                             </div>
                         </div>
 
-                        <p class='text-[10px] text-gs-50 w-full text-right'>UP <span class='text-text'>{data()?.data.uptime}</span></p>
+                        <p class='text-[10px] text-gs-50 w-full text-right'>UP <span class='text-text'>{data.latest?.data.uptime}</span></p>
                     </div>
                 </div>
             </Suspense>
