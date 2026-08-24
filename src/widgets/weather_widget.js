@@ -115,32 +115,30 @@ export default class WeatherWidget extends WidgetTemplate {
                         </div>
                     </div>
 
-                    <Show when={this.settings.showHourly}>
-                        <div class='mt-2 flex-1 flex gap-2 scroll-overlay select-none *:shrink-0'>
-                            <For each={getHourlyForecast()}>
-                                {(hour) => {
-                                    const time = new Date(hour.time_epoch * 1000);
-                                    const hourLabel = time.toLocaleString("en-US", {
-                                        hour: "numeric",
-                                        hour12: true,
-                                    }).toLowerCase();
+                    <div class='mt-2 flex-1 flex gap-2 scroll-overlay select-none *:shrink-0'>
+                        <For each={getHourlyForecast()}>
+                            {(hour) => {
+                                const time = new Date(hour.time_epoch * 1000);
+                                const hourLabel = time.toLocaleString("en-US", {
+                                    hour: "numeric",
+                                    hour12: true,
+                                }).toLowerCase();
 
-                                    return (
-                                        <div class='border border-gs-50 rounded-sm w-24 h-full p-2 pt-1 flex flex-col'>
-                                            <div class='flex justify-between mt-1'>
-                                                <p class='uppercase text-gs-30 text-[10px]'>{hourLabel}</p>
-                                                <WeatherIcon class='w-5 h-5 mt-1' type={getWeatherIcon(hour.condition.code)}></WeatherIcon>
-                                            </div>
-                                            <div class='mt-auto'>
-                                                <p class='text-sm'>{Math.round(hour.temp_c)}°C</p>
-                                                <p class='text-gs-30 text-[8px]'>Feels Like {Math.round(hour.feelslike_c)}°C</p>
-                                            </div>
+                                return (
+                                    <div class='border border-gs-50 rounded-sm w-24 h-full p-2 pt-1 flex flex-col'>
+                                        <div class='flex justify-between mt-1'>
+                                            <p class='uppercase text-gs-30 text-[10px]'>{hourLabel}</p>
+                                            <WeatherIcon class='w-5 h-5 mt-1' type={getWeatherIcon(hour.condition.code)}></WeatherIcon>
                                         </div>
-                                    )
-                                }}
-                            </For>
-                        </div>
-                    </Show>
+                                        <div class='mt-auto'>
+                                            <p class='text-sm'>{Math.round(hour.temp_c)}°C</p>
+                                            <p class='text-gs-30 text-[8px]'>Feels Like {Math.round(hour.feelslike_c)}°C</p>
+                                        </div>
+                                    </div>
+                                )
+                            }}
+                        </For>
+                    </div>
                 </div>
             </Suspense>
         )
