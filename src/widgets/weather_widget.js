@@ -61,7 +61,7 @@ export default class WeatherWidget extends WidgetTemplate {
         const getHourlyForecast = () => {
             if (!data()) return [];
             const currentHour = new Date().getHours();
-            const hourly = data()?.forecast?.forecastday[0]?.hour || [];
+            const hourly = data()?.forecast?.forecastday.map(day => day?.hour).flat() || [];
 
             // Find current hour and get next 8 hours
             const currentIndex = hourly.findIndex(h => {
