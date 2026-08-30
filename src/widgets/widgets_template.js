@@ -120,12 +120,24 @@ export default class WidgetTemplate {
             );
         }
 
+        // This is hella jank not going to lie
+        const getProperSettings = () => {
+            let c = this.constructor
+
+            let s = new c({x: -1, y: -1})
+            let k = Object.keys(s.settings)
+
+            return k.filter(item => !['x', 'y', 'height', 'width', 'id'].includes(item)) 
+        }
+
+        const proper = getProperSettings()
+
         return (
             <div class='p-4 pt-0 space-y-4'>
                 <hr class='border-gs-90 mb-4'></hr>
                 <For each={Object.keys(store)}>
                     {(item, index) => {
-                        if (!['x', 'y', 'height', 'width', 'id'].includes(item)) {
+                        if (proper.includes(item)) {
                             switch (typeof store[item]) {
                                 case "boolean":
                                     return boolInput(item)
