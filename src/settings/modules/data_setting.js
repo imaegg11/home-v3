@@ -1,8 +1,8 @@
 import { toast } from "solid-sonner";
 import { settings } from "../settings";
 import { SettingTemplate } from "./setting_template";
-import { haveSameTypes } from "~/utils/haveSameType";
 import { onCleanup, onMount } from "solid-js";
+import { hasSameStructure } from "~/utils/hasSameStructure";
 
 export class DataSetting extends SettingTemplate {
     render() {
@@ -11,24 +11,29 @@ export class DataSetting extends SettingTemplate {
             let reader = new FileReader();
             reader.readAsText(file, "UTF-8");
 
+            const savePoint = settings.export()
+            const struct = settings.export() // Why? So we don't touch savePoint unless needed because I'm going to accidentally modify savePoint somehow 
+
             reader.onload = (r) => {
                 try {
                     const json = JSON.parse(r.target.result)
 
-                    if (!haveSameTypes(json, settings.export())) throw new Error("Object does not conform to the settings. Did you import the right file?")
+                    if (!hasSameStructure(struct, json)) throw new Error("Object does not conform to the settings. Did you import the right file?")
 
                     settings.load(json)
 
                     toast.success("Imported successfully")
                 } catch (error) {
-                    toast.error("Something went wrong... check console");
+                    toast.error("Something went wrong... check console (Reverted any changes made)");
 
                     console.error(error)
+                    settings.load(savePoint)
                 }
             }
 
             reader.onerror = (r) => {
-                toast.error("Something went wrong...")
+                toast.error("Something went wrong... Reverting changes made")
+                settings.load(savePoint)
             }
         }
 
