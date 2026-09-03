@@ -4,7 +4,7 @@ function conform(item1, item2) { // Item 1 is correct, item 2 is imported
     if (typeof item1 === 'object') {
         if (Array.isArray(item1)) {
             for (let inner of item2) {
-                if (!conform(inner, item2[0])) return false 
+                if (!conform(inner, item1[0])) return false 
             }
 
             return true

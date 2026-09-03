@@ -1,7 +1,6 @@
 // All things widgets (Might have to split into widgets setting and widgets manager some day... not too sure)
 
 import { availableWidgets } from "~/widgets/widgets_map";
-import WidgetTemplate from "~/widgets/widgets_template";
 import { SettingTemplate } from "./setting_template";
 import { createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
 
@@ -28,6 +27,7 @@ import "gridstack/dist/gridstack.min.css";
 
 import { createStore, unwrap } from "solid-js/store";
 import { toast } from "solid-sonner";
+import { hasSameStructure } from "~/utils/hasSameStructure";
 
 const CustomAccordion = ({ index, item, del }) => {
     return (
@@ -57,6 +57,19 @@ export class Widgets extends SettingTemplate {
 
     update() {
         this.forceUpdate()
+    }
+
+    // todo: update to have each widget do it's own verification for future since they may also have arrays
+    verify(imp) {
+        for (let widget of imp["widgets"]) {
+            if (!Object.keys(availableWidgets).includes(widget.name)) continue
+
+            const r = hasSameStructure(new availableWidgets[widget.name]().export_widget(), widget)
+
+            if (!r) return false
+        }
+
+        return true
     }
 
     save(shouldSave) {

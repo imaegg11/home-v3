@@ -12,6 +12,18 @@ export class SettingManager {
         this.settings = [];
     }
 
+    verify(imp) {
+        for (let key of Object.keys(imp)) {
+            if (this.get(key)) {
+                const r = this.get(key).verify(imp[key])
+
+                if (!r) return [false, key]
+            }
+        }
+
+        return [true, ""]
+    }
+
     load(settings_json=null) {
         if (settings_json == null) {
             for (const setting of this.settings) setting.load(lsm.getItem(setting.name) || {});

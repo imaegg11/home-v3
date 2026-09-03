@@ -8,6 +8,8 @@ export default class WidgetTemplate {
     constructor(settings) {
         this.settings = {
             id: nanoid(10),
+            x: -1, 
+            y: -1,
             height: 1,
             width: 1,
             ...settings

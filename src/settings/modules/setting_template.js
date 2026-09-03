@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import { lsm } from "~/utils/localStorage_manager";
+import { hasSameStructure } from "../../utils/hasSameStructure";
 
 export class SettingTemplate {
     #forceUpdate = createSignal(0)
@@ -15,6 +16,10 @@ export class SettingTemplate {
         this.settings = {
             ...settings
         }
+    }
+
+    verify(imp) {
+        return hasSameStructure(this.settings, imp)
     }
 
     /* 

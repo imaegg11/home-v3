@@ -18,6 +18,7 @@ import { Switch, SwitchControl, SwitchThumb } from "~/components/ui/switch"
 import { InfoToolTip } from "~/components/InfoToolTip";
 
 import { createStore, unwrap } from "solid-js/store";
+import { hasSameStructure } from "~/utils/hasSameStructure";
 
 const CustomAccordion = ({ index, item, setItem, del }) => {
 
@@ -95,7 +96,7 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                         <div class="flex items-center justify-between mt-4 mx-2">
                             <div>
                                 <p class="text-sm">Use encodeURIComponent</p>
-                                <p class='text-xs text-gs-50'>Whether to use encodeURIComponent() or not</p> 
+                                <p class='text-xs text-gs-50'>Whether to use encodeURIComponent() or not</p>
                             </div>
                             <Switch checked={item.useEncodeURIComponent} onChange={updateSwitch}>
                                 <SwitchControl>
@@ -141,6 +142,20 @@ export class SearchSetting extends SettingTemplate {
             "Brave": "https://search.brave.com/search?q=",
             "Ecosia": "https://www.ecosia.org/search?method=index&q="
         }
+    }
+
+    verify(imp) {
+        const clone = structuredClone(this.settings)
+
+        clone.search_templates.push({
+            "name": "Wikipedia",
+            "template": "wiki ${value}",
+            "link": "https://en.wikipedia.org/wiki/${value}",
+            "useEncodeURIComponent": true,
+            "color": "#fca54e"
+        })
+
+        return hasSameStructure(clone, imp)
     }
 
     get_search_engine() {

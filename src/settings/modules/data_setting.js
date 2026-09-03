@@ -12,13 +12,15 @@ export class DataSetting extends SettingTemplate {
             reader.readAsText(file, "UTF-8");
 
             const savePoint = settings.export()
-            const struct = settings.export() // Why? So we don't touch savePoint unless needed because I'm going to accidentally modify savePoint somehow 
 
             reader.onload = (r) => {
                 try {
                     const json = JSON.parse(r.target.result)
 
-                    if (!hasSameStructure(struct, json)) throw new Error("Object does not conform to the settings. Did you import the right file?")
+                    const [verified, error] = settings.verify(json)
+                    
+                    // todo: update to give clearer error messages
+                    if (!verified) throw new Error(`Settings for ${error} has problems, please fix`)
 
                     settings.load(json)
 
