@@ -19,8 +19,11 @@ import { InfoToolTip } from "~/components/InfoToolTip";
 
 import { createStore, unwrap } from "solid-js/store";
 import { hasSameStructure } from "~/utils/hasSameStructure";
+import { HSVWheel } from 'solid-tiny-color';
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover"
+import { getHSV, hsvToString, formatColor } from "~/utils/color";
 
-const CustomAccordion = ({ index, item, setItem, del }) => {
+const CustomAccordionItem = ({ index, item, setItem, del }) => {
 
     const updateTextInput = (event) => {
         setItem("search_templates", index(), event.target.placeholder.toLowerCase(), event.target.value)
@@ -28,6 +31,10 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
 
     const updateSwitch = (value) => {
         setItem("search_templates", index(), "useEncodeURIComponent", value);
+    }
+
+    const updateColor = (value) => {
+        setItem("search_templates", index(), "color", hsvToString(value));
     }
 
     return (
@@ -53,12 +60,28 @@ const CustomAccordion = ({ index, item, setItem, del }) => {
                                 ></input>
                             </div>
                             <div class='w-full'>
-                                <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2'>COLOR</p>
+                                <p class='text-[0.65rem] text-gs-50 tracking-widest mb-2 flex gap-2 items-center'>COLOR
+                                    <InfoToolTip>
+                                        <p>
+                                            Color supports two different formats. One is hex code in the format of #xxxxxx. The other is in hsv values. The accepted format is as follows a number from 0-360 inclusive, a decimal from 0 to 1, a decimal from 0 to 1, all separated by commas. E.g 186,0.99,0.55
+                                        </p>
+                                    </InfoToolTip>
+                                </p>
                                 <div class='flex items-center gap-2 h-10'>
                                     <input type="text" autoComplete="off" placeholder="Color" value={item.color} onInput={updateTextInput}
                                         className="text-accent-10 bg-bg w-full h-10 border-2 border-gs-90 select-none rounded-md px-4 focus-within:outline-none "
                                     ></input>
-                                    <div class='h-[90%] border border-border aspect-square rounded-md' style={{ "background": item.color }}></div>
+                                    <Popover>
+                                        <PopoverTrigger style={{ "background": formatColor(item.color) }} class='cursor-pointer h-[90%] border border-border aspect-square rounded-md'>
+                                        </PopoverTrigger>
+                                        <PopoverContent class='p-2 w-min'>
+                                            <div>
+                                                <p class='mb-2 text-center w-full'>Color Picker</p>
+                                                <HSVWheel class="w-40 h-40"
+                                                    hsv={getHSV(item.color)} onHSVChange={updateColor} strokeWidth={0.15} />
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +230,7 @@ export class SearchSetting extends SettingTemplate {
                     <div class="flex justify-center">
                         <Accordion multiple={false} collapsible class="my-4 mx-2 w-full space-y-4">
                             <For each={settings.search_templates}>
-                                {(item, index) => <CustomAccordion index={index} item={item} setItem={wrappedSetSettings} del={() => wrappedSetSettings("search_templates", items => items.filter((_, i) => i !== index()))}></CustomAccordion>}
+                                {(item, index) => <CustomAccordionItem index={index} item={item} setItem={wrappedSetSettings} del={() => wrappedSetSettings("search_templates", items => items.filter((_, i) => i !== index()))}></CustomAccordionItem>}
                             </For>
                             <Show when={settings.search_templates.length == 0}>
                                 <p class="w-full text-center mt-6 mb-3 text-sm text-gs-50">No search shortcuts found! Try adding one?</p>

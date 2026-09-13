@@ -1,4 +1,5 @@
 import { onMount } from "solid-js";
+import { formatColor } from "~/utils/color";
 import { setRootVar } from "~/utils/root";
 
 
@@ -21,7 +22,7 @@ export function Search({ SearchSetting }) {
         const value = event.currentTarget.value;
         const { color } = resolveSearch(value, SearchSetting);
 
-        setRootVar("shadow-color", color);
+        setRootVar("shadow-color", formatColor(color));
     }
 
     const submitSearch = (event) => {
