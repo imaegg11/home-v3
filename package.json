@@ -10,6 +10,7 @@
     "@kobalte/core": "^0.13.11",
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.1.0",
+    "@thednp/solid-color-picker": "^0.0.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codeflask": "^1.4.1",
