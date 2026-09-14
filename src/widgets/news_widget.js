@@ -14,6 +14,9 @@ import { toast } from "solid-sonner";
 
 export default class NewsWidget extends WidgetTemplate {
     static name = "News";
+    static description = "A simple news display utilizing newsapi.org"
+    static version = "1.0"
+    static last_modified = new Date("2026-09-14")
     
     constructor(settings) {
         super({
@@ -25,7 +28,7 @@ export default class NewsWidget extends WidgetTemplate {
     render_content() {
 
         const validate = (article) => {
-            if (article["source"] == null && article["author"] == null) return false
+            if (article["source"]["name"] == null && article["author"] == null) return false
             else if (article["title"] == null) return false
             else if (article["urlToImage"] == null) return false
             else return true
@@ -45,7 +48,7 @@ export default class NewsWidget extends WidgetTemplate {
         const fetchResource = async () => {
             const res = await fetch(this.settings.url);
             if (this.settings.url == "" || !res.ok) {
-                toast.error("System Info: Failed to fetch from url")
+                toast.error("News: Failed to fetch from url")
                 throw new Error('Failed to fetch from url');
             }
 
@@ -54,15 +57,15 @@ export default class NewsWidget extends WidgetTemplate {
             try {
                 const json = JSON.parse(text);
 
-                return shuffle(json["data"]["articles"].filter(e => validate(e)));
+                return shuffle(json["articles"].filter(e => validate(e)));
             } catch (err) {
-                toast.error("System Info: Invalid JSON response");
+                toast.error("News: Invalid JSON response");
                 throw new Error("Invalid JSON response");
             }
 
         }
 
-        const [data, { refetch, mutate }] = createResource(fetchResource)
+        const [data] = createResource(fetchResource)
 
         return (
             <Suspense fallback={<div class="bg-accent-80/30 animate-pulse"></div>}>

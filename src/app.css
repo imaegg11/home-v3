@@ -110,6 +110,8 @@
 body {
   /* background: var(--color-bg); */
   color: var(--color-text);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .dark,
@@ -356,4 +358,23 @@ body {
 
 .line-normal {
   line-height: normal;
+}
+
+/* Underline */
+
+.underline-animation {
+  transition: background-size 0.3s;
+  background-size: 0% 0.5px;
+  background-position-y: 100%;
+  background-position-x: 0%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(currentcolor, currentcolor);
+}
+
+.underline-animation:hover {
+  background-size: 100% 0.5px;
+}
+
+.underline-animation-container:hover>.underline-animation {
+  background-size: 100% 1px;
 }

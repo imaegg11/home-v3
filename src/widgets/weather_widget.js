@@ -4,6 +4,9 @@ import WeatherApi from "../utils/weather/weatherapi";
 
 export default class WeatherWidget extends WidgetTemplate {
     static name = "Weather";
+    static description = "A simple weather widget that displays the weather. Utilizes the weather api from weatherapi.com"
+    static version = "1.0"
+    static last_modified = new Date("2026-09-14")
 
     constructor(settings) {
         super({

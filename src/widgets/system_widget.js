@@ -5,6 +5,28 @@ import { createResource, onCleanup, Suspense } from "solid-js";
 
 export default class SystemWidget extends WidgetTemplate {
     static name = "System Info";
+    static description = `
+A widget that displays information regarding your system, including battery, cpu, cpu temp, ram, disk and uptime. Continuously refreshes every 5 seconds. 
+
+This format for the json response should be as follows
+
+    {
+        "battery": {
+            "percent": 75.0,
+            "charging": true
+        },
+        "cpu": {
+            "total_percent": 12.5,
+            "temperature": 48.2
+        },
+        "ram": 41.7,
+        "disk": 63.4,
+        "uptime": "2 days, 04:18:35"
+    }
+        
+    `
+    static version = "1.0"
+    static last_modified = new Date("2026-09-14")
 
     constructor(settings) {
         super({
@@ -76,9 +98,9 @@ export default class SystemWidget extends WidgetTemplate {
                             <p class='tracking-wide'>SYSTEM</p>
                             <p class='flex gap-1 items-center'
                                 style={{
-                                    'color': color[getSection(data.latest?.data.battery.percent, data.latest?.data.battery.charging)]
+                                    'color': color[getSection(data.latest?.battery.percent, data.latest?.battery.charging)]
                                 }}
-                            >{data.latest?.data.battery.percent}% {battery[getSection(data.latest?.data.battery.percent, data.latest?.data.battery.charging)]}</p>
+                            >{data.latest?.battery.percent}% {battery[getSection(data.latest?.battery.percent, data.latest?.battery.charging)]}</p>
                         </div>
                         <div class='grid grid-cols-2 grid-rows-2 gap-x-2 mt-1.5'>
                             <div class='border-t border-text p-1'>
@@ -87,7 +109,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data.latest?.data.cpu.total_percent)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.cpu.total_percent)}<span class='text-[12px]'>%</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -96,7 +118,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data.latest?.data.cpu.temperature)}<span class='text-[12px]'>°C</span></p>
+                                >{truncate3(data.latest?.cpu.temperature)}<span class='text-[12px]'>°C</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -105,7 +127,7 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data.latest?.data.ram)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.ram)}<span class='text-[12px]'>%</span></p>
                             </div>
 
                             <div class='border-t border-text p-1'>
@@ -114,11 +136,11 @@ export default class SystemWidget extends WidgetTemplate {
                                     style={{
                                         "line-height": "normal"
                                     }}
-                                >{truncate3(data.latest?.data.disk)}<span class='text-[12px]'>%</span></p>
+                                >{truncate3(data.latest?.disk)}<span class='text-[12px]'>%</span></p>
                             </div>
                         </div>
 
-                        <p class='text-[10px] text-gs-50 w-full text-right'>UP <span class='text-text'>{data.latest?.data.uptime}</span></p>
+                        <p class='text-[10px] text-gs-50 w-full text-right'>UP <span class='text-text'>{data.latest?.uptime}</span></p>
                     </div>
                 </div>
             </Suspense>

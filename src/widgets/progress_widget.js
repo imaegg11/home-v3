@@ -4,6 +4,9 @@ import { createSignal, onMount } from "solid-js"
 
 export default class ProgressWidget extends WidgetTemplate {
     static name = "Time Progress";
+    static description = "A time progress widget to keep track of how much of the year has passed. Can be animated or not."
+    static version = "1.0"
+    static last_modified = new Date("2026-09-14")
     
     constructor(settings) {
         super({
