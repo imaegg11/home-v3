@@ -2,7 +2,7 @@
 
 import { availableWidgets } from "~/widgets/widgets_map";
 import { SettingTemplate } from "./setting_template";
-import { createMemo, on } from "solid-js";
+import { createMemo, createSignal, on } from "solid-js";
 
 import { createStore, unwrap } from "solid-js/store";
 import { hasSameStructure } from "~/utils/hasSameStructure";
@@ -10,6 +10,8 @@ import { hasSameStructure } from "~/utils/hasSameStructure";
 import { WidgetSettingRender } from "~/components/widgets/widgetSetting"
 import { WidgetList } from "~/components/widgets/widgetList";
 import { WidgetInfo } from "~/components/widgets/widgetInfo";
+import { Dynamic } from "solid-js/web";
+import { WidgetContextProvider } from "~/components/widgets/widgetContext";
 
 export class Widgets extends SettingTemplate {
     constructor(name, heading) {
@@ -37,7 +39,7 @@ export class Widgets extends SettingTemplate {
 
     save(shouldSave) {
         super.save(shouldSave)
-        
+
         for (let widget of this.settings.widgets) widget.save(shouldSave)
 
         super.save(shouldSave)
@@ -65,7 +67,7 @@ export class Widgets extends SettingTemplate {
 
     render_widgets() {
         return (
-            <div id='widgets' class='grid auto-cols-[140px] auto-rows-[140px] gap-4'>
+            <div id='widgets' class='grid auto-cols-35 auto-rows-35 gap-4'>
                 <For each={this.settings.widgets}>
                     {(item, index) => item.render()}
                 </For>
@@ -91,13 +93,24 @@ export class Widgets extends SettingTemplate {
             }
         }
 
-        return <WidgetInfo widget={availableWidgets['System Info']}></WidgetInfo>
+        const [page, setPage] = createSignal('settingRender')
 
-        return <WidgetList></WidgetList>
 
-        return <WidgetSettingRender
-            store={store}
-            wrappedSetStore={wrappedSetStore}
-        ></WidgetSettingRender>
+        const pages = {
+            'settingRender': WidgetSettingRender,
+            'widgetList': WidgetList,
+            'widgetInfo': WidgetInfo
+        }
+
+        return (
+            <WidgetContextProvider page={page} setPage={setPage}>
+                <Dynamic component={
+                    pages[page()]
+                }
+                    store={store}
+                    wrappedSetStore={wrappedSetStore}
+                ></Dynamic>
+            </WidgetContextProvider>
+        )
     }
 }
