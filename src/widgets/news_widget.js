@@ -84,7 +84,7 @@ export default class NewsWidget extends WidgetTemplate {
                         <For each={data()}>
                             {(e, index) => {
                                 let source = []
-                                if (e.source != null) source.push(e.source)
+                                if (e.source.name != null) source.push(e.source.name)
                                 if (e.author != null) source.push(e.author.split(",")[0])
                   
                                 const clamp = {
