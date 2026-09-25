@@ -37,8 +37,10 @@ export class Widgets extends SettingTemplate {
         return true
     }
 
-    save(shouldSave) {
-        super.save(shouldSave)
+    async save(shouldSave) {
+        await super.save(shouldSave)
+
+        console.log(this.settings.widgets)
 
         for (let widget of this.settings.widgets) widget.save(shouldSave)
 

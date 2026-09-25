@@ -88,9 +88,9 @@ export class SettingManager {
         )
     }
 
-    save(save) {
+    async save(save) {
         for (let setting of this.settings) {
-            setting.save(save)
+            await setting.save(save)
         }
     }
 

@@ -42,7 +42,7 @@ export class SettingTemplate {
         if (this.preload) this.update();
     }
 
-    save(shouldSave) {
+    async save(shouldSave) {
         if (!shouldSave) {
             this.to_be_saved = {}
             return
@@ -61,9 +61,9 @@ export class SettingTemplate {
         }
 
         if (Object.keys(this.to_be_saved).length != 0) {
-            this.cache()
-                .then(r => self_save())
-                .catch(e => self_save())
+            await this.cache()
+
+            self_save()
         } else {
             self_save()
         }
